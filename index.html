@@ -70,6 +70,18 @@
   .theory .guide { margin-top: 10px; padding-top: 9px; border-top: 1px dashed #d9d3c9; font-size: 13.5px; }
   .theory .guide::before { content: "→ "; color: var(--orange); font-weight: 700; }
 
+  /* methodology detail (각주 해설) */
+  .sub .info-btn.detail { color: var(--orange); }
+  .sub .info-btn.detail:hover, .sub .info-btn.detail.has { background: var(--orange); color:#fff; border-color: var(--orange); }
+  .mth-foot { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .mth-hint { font-size: 12px; color: var(--mute); }
+  .theory.detail { border-left-color: var(--orange); background: #fbf6f1; }
+  .theory.detail .lead { color: var(--orange); }
+  .mth { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+  .mth:last-child { margin-bottom: 0; }
+  .mth-n { font-size: 13.5px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .mth-d { font-size: 13px; color: #444; line-height: 1.56; }
+
   /* input fields */
   .fields { margin-top: 8px; }
   textarea, input.fw-in { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; font-family: inherit; font-size: 15px; line-height: 1.55; background: #fafafa; resize: vertical; }
@@ -205,7 +217,7 @@
         <button class="btn btn-navy" onclick="printBrief('brand')">⌘ 브랜드 기초설계 브리프 PDF</button>
         <button class="btn btn-primary" id="go-design" disabled onclick="completeBrand()">브랜드 설계 완료 → 디자인 단계로 →</button>
       </div>
-      <div class="foot-note" style="margin-top:8px;">각 질문의 <b>ⓘ 방법론</b>을 펼쳐 적용 방법론을 1개 또는 복수 선택하면 빈칸이 그 구조(예: 골든서클 → Why/How/What)로 바뀝니다. 선택 없이 자유 서술도 가능합니다.</div>
+      <div class="foot-note" style="margin-top:8px;">각 질문의 <b>ⓘ 방법론 선택</b>을 펼쳐 적용 방법론을 1개 또는 복수 선택하면 빈칸이 그 구조(예: 골든서클 → Why/How/What)로 바뀝니다. 선택 없이 자유 서술도 가능합니다. 각 항목 하단 <b>📖 방법론 설명</b>에서 각 방법론의 의미·도출 목표 해설을 확인할 수 있습니다.</div>
     </div>
   </div>
 </div>
@@ -435,6 +447,82 @@ const THEORY_DESC = {
   "CRAP 원칙":"대비(Contrast)·반복(Repetition)·정렬(Alignment)·근접(Proximity) — 디자인 일관성의 기본 점검표.",
 };
 
+/* 브랜드 기초설계 방법론 해설 — 각 방법론이 어떤 의미로 만들어졌고, 어떤 결과를 도출하려는 것인지.
+   key 는 BIBX th[][0](방법론 이름)과 정확히 일치. 누락 시 짧은 설명(th[][1])으로 폴백. */
+const METHOD_DESC = {
+  // 01 서비스 모델
+  "SUCCESs (Heath)":"칩·댄 히스가 『스틱!』에서 정리한, 기억에 달라붙는 메시지의 6원칙(Simple·Unexpected·Concrete·Credible·Emotional·Story). 여기서는 Simple(핵심의 압축)을 적용해, 한 줄로 압축되지 않으면 핵심·청중·차별점 중 무엇이 모호한지 역으로 진단하기 위한 도구.",
+  "Golden Circle (Sinek)":"사이먼 시넥의 Why→How→What 모델. 사람은 '무엇을'이 아니라 '왜'에 공감한다는 전제에서, 기능 설명이 아닌 '존재 이유'에서 출발한 정의를 끌어내기 위한 틀.",
+  "Lean Startup (Painful Problem)":"에릭 리스의 린 스타트업이 강조하는 '돈 내고서라도 풀고 싶은 고통'의 검증. 있으면 좋은 문제가 아니라 반드시 해결해야 할 문제인지 가려 헛된 제품 개발을 막기 위한 관점.",
+  "5 Whys":"도요타 생산방식에서 나온 근본원인 분석법. '왜?'를 반복해 표면 증상이 아니라 구조적 원인까지 내려가, 진짜 풀어야 할 문제를 특정하기 위한 기법.",
+  "Switching Forces (Moesta)":"밥 모에스타의 JTBD 4가지 힘(Push 현재 불만·Pull 새 매력·Anxiety 불안·Habit 관성). 기존 해결책을 버리고 새것으로 옮기게 하는 힘과 막는 힘을 분해해 전환의 실제 동력을 설계하기 위한 모델.",
+  "Prospect Theory":"카너먼·트버스키의 전망이론. 같은 크기라도 이익보다 손실을 크게 느낀다는 발견에서, '얻는 것'뿐 아니라 '더는 잃지 않게 되는 것'까지 가치로 제시하기 위한 근거.",
+  "Self-Discrepancy":"히긴스의 자기불일치 이론. '현재의 나(Actual Self)'와 '되고 싶은 나(Ideal Self)'의 간극이 동기를 만든다는 이론으로, 가치를 기능 나열이 아닌 '상태 전환'으로 표현하기 위한 틀.",
+  "Elements of Value (Bain)":"베인앤컴퍼니가 정리한 30가지 가치 요소(기능→정서→삶의 변화→사회적 영향). 가치를 기능에만 머물지 않고 정서·정체성 층위까지 쌓아 올리기 위한 점검표.",
+  "Service Blueprinting":"서비스 디자인의 청사진 기법. 사용자의 행동(무대 위)과 이를 떠받치는 시스템(무대 뒤)을 한 축에 정렬해, 가치가 만들어지는 과정을 빠짐없이 설계하기 위한 도구.",
+  "Hook Model (Eyal)":"니르 이얄의 훅 모델(Trigger→Action→Reward→Investment). 반복 사용 습관이 형성되는 순환을 설계해, 일회성이 아닌 지속 사용되는 경험을 만들기 위한 프레임.",
+  "Aha Moment":"사용자가 제품의 핵심 가치를 '처음 체감하는 순간'. 그 순간을 구체적 행동·시간(예: 15분 내 1클릭)으로 특정해, 활성화(Activation) 설계의 목표점을 잡기 위한 개념.",
+  "Blue Ocean ERRC":"김위찬·마보안의 블루오션 전략 툴(제거·감소·증가·창조). 경쟁 요소를 네 방향으로 재배치해 가치 곡선을 다시 그리고, '더 잘'이 아니라 '다르게'의 지점을 찾기 위한 격자.",
+  "Activity System (Porter)":"마이클 포터의 활동 시스템 지도. 차별화는 한 가지 잘함이 아니라 '서로 강화하는 활동들의 결합'에서 온다는 관점에서, 모방하기 어려운 구조적 차별성을 설계하기 위한 도구.",
+  "Ries & Trout":"알 리스·잭 트라우트의 포지셔닝 이론. 고객 머릿속 사다리에서 '특정 속성 1번'이 되라는 원칙으로, 카테고리 안에서 우리가 1등인 단 하나의 속성을 정하기 위한 틀.",
+  // 02 브랜드 철학
+  "Worldview Marketing":"세스 고딘의 개념. 사람은 새 신념을 받아들이기보다 이미 가진 세계관에 부합하는 메시지에 반응한다는 전제에서, 고객의 기존 신념을 더 잘 표현해 주는 프레임을 찾기 위한 관점.",
+  "Attribute Substitution":"카너먼이 말한, 어려운 질문을 답하기 쉬운 질문으로 바꿔치기하는 인지 습관. 사람들이 본질 대신 쉬운 질문에 답하고 있음을 드러내, 진짜 본질 질문으로 되돌리기 위한 도구.",
+  "Systems Thinking":"시스템 사고의 빙산 모델(사건→패턴→구조→멘탈모델). 눈에 보이는 사건이 아니라 그것을 반복 생산하는 구조와 사고방식까지 파고들어, 문제의 근본 원인을 잡기 위한 틀.",
+  "Status Quo Bias":"현상유지 편향. 사람은 변화의 인지비용 때문에 보상이 불명확하면 지금 상태에 머문다는 편향으로, 왜 고객이 문제를 알면서도 안 바꾸는지 설명하고 그 장벽을 짚기 위한 근거.",
+  "Core Values":"짐 콜린스류의 핵심가치 정의. 상황이 바뀌어도 양보하지 않을 신념 5~6개를 명문화해, 슬로건이 아니라 '실제 의사결정의 기준'으로 작동하는 철학을 세우기 위한 작업.",
+  "Self-Determination Theory":"데시·라이언의 자기결정성 이론(자율성·유능감·관계성). 인간의 내적 동기를 이루는 세 욕구를 기준으로, 브랜드가 어떤 동기를 충족시키는지 정의하기 위한 심리 이론.",
+  "Theory of Change":"사회변화 영역의 변화 이론(Output→Outcome→Impact). 단순 산출물이 아니라 행동 변화·인식 변화까지 인과로 연결해, 브랜드가 만들 변화의 층위를 설계하기 위한 틀.",
+  "Frame Shift":"프레임 전환. 같은 사실을 보는 사고의 틀 자체를 바꾸는 것으로, 기존 통념을 새 프레임으로 대체해 브랜드의 관점을 각인시키기 위한 도구.",
+  "Tiny Habits (Fogg)":"BJ 포그의 작은 습관 모델. 기존 행동(앵커)에 아주 작은 새 행동을 붙여 정착시키는 방법으로, 거창한 변화 대신 반복 가능한 작은 행동 변화를 설계하기 위한 틀.",
+  "Strategy is sacrifice":"마이클 포터의 명제 '전략은 무엇을 안 할지 정하는 것'. 모두를 만족시키려다 차별성을 잃지 않도록, '하지 않을 것'을 명시해 포지션을 날카롭게 하기 위한 원칙.",
+  "False Scarcity 경계":"거짓 희소성에 대한 경계. 한 번의 과장·조작된 긴급성이 신뢰를 영구히 훼손한다는 관점에서, '절대 쓰지 않을 설득 방식'을 미리 정해 신뢰 자산을 지키기 위한 가드레일.",
+  "Manifesto 4요소":"브랜드 선언문의 4구성(존재 이유·적대자·약속·초대). 우리가 왜 존재하고 무엇에 맞서며 무엇을 약속하고 누구를 부르는지를 묶어, 팀과 고객이 공유할 신념 문장을 만들기 위한 틀.",
+  "BHAG (Collins)":"짐 콜린스의 Big Hairy Audacious Goal. 10~30년 단위의 가슴 뛰는 거대 목표를 세워, 단기 과제를 넘어선 방향성과 응집력을 만들기 위한 장치.",
+  "Brand Archetype":"융의 원형 이론에 기반한 브랜드 12원형(영웅·현자·창조자 등). 브랜드에 일관된 '인격'을 부여해, 이후 로고·보이스·디자인 톤의 일관된 기준점을 만들기 위한 틀.",
+  // 03 고객
+  "Goal-Directed Persona":"앨런 쿠퍼의 목표지향 페르소나. 인구통계 평균이 아니라 '무엇을 달성하려는가(목표)'를 중심에 둔 가상의 대표 사용자로, 의사결정의 기준이 될 고객상을 세우기 위한 도구.",
+  "3층 목표":"목표를 기능·정서·사회 세 층위로 나눠 보는 관점. 표면의 기능 목표 아래 깔린 정서적·사회적 목표까지 짚어, 고객이 진짜 원하는 바를 입체적으로 파악하기 위한 틀.",
+  "Pain 식별":"고통점을 강도×빈도×회피가능성으로 점수화하는 방법. 막연한 불편이 아니라 '가장 크고 자주 겪으며 피하기 어려운' 문제를 가려, 우선 해결할 페인을 특정하기 위한 도구.",
+  "Ambiguity Aversion":"모호성 회피(엘스버그 역설). 사람은 확률을 모르는 불확실성을 특히 더 기피한다는 발견으로, 고객의 불안을 '실패 공포'가 아니라 '뭘 하는지 모르겠음(모호함)'으로 정확히 짚기 위한 근거.",
+  "Learned Helplessness":"셀리그먼의 학습된 무기력. 반복된 실패가 '난 해도 안 된다'는 체념을 학습시킨다는 이론으로, 고객이 시도 자체를 포기하게 된 배경을 이해하기 위한 틀.",
+  "Identity Marketing":"정체성 마케팅. 사람은 '어떤 사람이 되는가'를 위해 소비한다는 관점에서, 제품이 고객을 어떤 사람으로 만들어 주는지(정체성 욕망)를 정의하기 위한 도구.",
+  "Elements of Value":"베인의 가치 요소 모델 중 상위 욕구(불안 해소·희망 제공·자아실현)에 주목하는 관점. 표면 편익을 넘어 고객의 심층 욕망 층위를 짚기 위한 점검표.",
+  "Loss Aversion (λ2.25)":"카너먼·트버스키의 손실회피. 같은 크기의 손실이 이익보다 약 2.25배 크게 느껴진다는 계수로, 고객이 '잃기 싫어하는 것'을 정확히 짚어 두려움의 실체를 파악하기 위한 근거.",
+  "Sunk Cost":"매몰비용 오류. 이미 투입한 시간·돈이 헛될까 두려워 비합리적으로 매달리는 심리로, 고객이 기존 투자가 무의미해질까 갖는 두려움을 이해하기 위한 개념.",
+  "Social Failure":"사회적 실패에 대한 두려움. 공개적으로 드러나는 실패는 사적 실패보다 훨씬 강하게 회피된다는 점에서, 고객이 남들 앞에서 겪을까 걱정하는 실패를 짚기 위한 관점.",
+  "Anticipated Regret":"예상된 후회. 나중에 후회할까 봐 결정을 미루는 심리로, 어떤 후회가 고객의 결정을 가로막는지 파악해 그 망설임을 다루기 위한 개념.",
+  "Voice of Customer":"VOC, 고객의 목소리. 고객이 실제로 쓰는 단어·질문을 그대로 수집해, 우리 용어가 아닌 고객의 언어로 니즈를 파악하기 위한 방법.",
+  "USP":"로저 리브스의 고유 판매 제안. 고객이 반복 호소하는 것은 곧 아직 충족되지 않은 욕구라는 관점에서, 반복 호소를 단서로 핵심 차별 메시지를 찾기 위한 틀.",
+  // 04 고객 여정
+  "Status Quo":"현상유지 상태. 고객이 새 여정을 시작하려면 무엇을 두고 떠나야 하는지를 짚어, 전환의 출발점에 있는 관성과 상실감을 이해하기 위한 관점.",
+  "Anxiety + Hope":"변화 직전 고객 마음에 불안과 희망이 공존한다는 관점. 불안만 크면 회피하고 희망만 크면 미루므로, 둘의 혼재를 함께 포착해 시작 단계의 감정을 정확히 설계하기 위한 틀.",
+  "Fogg Trigger 3종":"BJ 포그의 트리거 3종(Spark·Facilitator·Signal). 동기가 부족하면 Spark, 능력이 부족하면 Facilitator, 둘 다 충분하면 Signal로 — 상황에 맞는 행동 계기를 설계하기 위한 분류.",
+  "Mimetic Desire":"르네 지라르의 모방욕망. 사람은 타인이 원하는 것을 따라 원한다는 이론으로, 고객이 누구를 보고 욕망을 모방하는지 파악해 인식 단계를 설계하기 위한 관점.",
+  "Reactance":"심리적 반발. 자유가 위협받으면 반대로 행동하려는 본능으로, '지금 하세요' 같은 강요형 표현을 피하고 자발성을 끌어내기 위해 경계해야 할 반응.",
+  "Information Foraging":"정보 채집 이론. 사람은 먹이를 찾듯 단서(향)를 따라 정보를 탐색한다는 관점에서, 탐색 단계의 고객에게 명확한 단서를 단계적으로 제공하기 위한 틀.",
+  "Reference Group":"준거집단. 사람은 자신과 비슷하거나 닮고 싶은 집단을 기준으로 판단한다는 사회심리 개념으로, 어떤 집단을 보여줘야 신뢰가 생기는지 정하기 위한 도구.",
+  "Cialdini":"로버트 치알디니의 설득 6원리(상호성·일관성·사회적 증거·권위·호감·희소성). 신뢰 형성 단계에서 어떤 설득 장치를 쓸지 고르기 위한 대표 프레임.",
+  "Mirror Testimonial":"'거울 후기'. 고객은 자신과 처지가 닮은 사람의 후기에 가장 강하게 공감한다는 점에서, 어떤 후기를 보여줘야 '내 얘기'로 느낄지 설계하기 위한 관점.",
+  "Buyer's Remorse":"구매 후 후회. 결정 직후 밀려오는 불안을 미리 예상해, 환불·되돌리기 같은 안전장치로 사전 불안을 해소하기 위한 개념.",
+  "Choice Overload":"선택 과부하(아이엔가의 잼 실험). 선택지가 너무 많으면 결정률이 오히려 떨어진다는 발견으로, 결정 단계의 선택지를 3~5개로 줄이기 위한 근거.",
+  "정서적 확신":"결정은 논리보다 '나를 위한 것이구나'라는 정서적 확신에서 굳어진다는 관점. 개인화된 메시지로 그 확신을 만들어 결정을 돕기 위한 장치.",
+  "CTA":"Call To Action, 행동 유도 문구. 하나·구체·동사형으로 다음 행동을 명확히 지시해, 고객이 머뭇거리지 않고 다음 단계로 넘어가게 하기 위한 요소.",
+  "Implementation Intentions":"골비처의 실행의도 — '언제·어디서·어떻게'를 미리 정하면 실행률이 오른다는 연구. 막연한 의지가 아니라 구체적 실행 계획으로 행동 단계의 이탈을 줄이기 위한 기법.",
+  "TTFV":"Time To First Value, 첫 가치까지 걸리는 시간. 사용자가 의미 있는 첫 결과를 얻기까지의 시간을 줄여, 초기 이탈을 막고 활성화를 높이기 위한 지표.",
+  "Peak-End Rule":"카너먼의 절정-대미 법칙. 경험의 기억은 가장 강렬한 순간(정점)과 마지막 순간이 좌우한다는 발견으로, 완료 단계의 정점·마무리 경험을 설계하기 위한 근거.",
+  "Identity Shift":"정체성 전환. 완료 순간 고객이 '나는 이제 기준을 가진 사람이다'처럼 자기 인식이 바뀌게 만들어, 경험을 정체성 변화로 각인시키기 위한 관점.",
+  "Hook Investment":"훅 모델의 Investment(투자) 단계. 사용자가 쌓은 데이터·자산이 다음 사용을 부르는 트리거가 된다는 점에서, 재방문을 부르는 축적 자산을 설계하기 위한 개념.",
+  "Social Currency":"사회적 화폐(조나 버거). 사람은 공유로 자신을 표현한다는 점에서, 공유했을 때 고객이 돋보일 자기표현 가치를 만들어 추천·확산을 유도하기 위한 틀.",
+  // 05 성공
+  "Customer Success":"고객 성공 = Required Outcome(꼭 얻어야 할 결과) × Appropriate Experience(그 결과를 얻는 적절한 경험). 둘을 함께 정의해 일회성이 아닌 지속 가치를 설계하기 위한 프레임.",
+  "결과 3종":"사용자 성공을 가시 산출물·의사결정 기준·외부 공유 자산 세 가지로 점검하는 틀. 셋이 모두 갖춰져야 한 번 쓰고 끝나지 않는다는 기준을 세우기 위한 도구.",
+  "North Star Metric":"북극성 지표. 사용자 가치와 사업 성장을 동시에 대표하는 단 하나의 핵심 지표로, 팀 전체가 같은 방향을 보게 만들기 위한 장치.",
+  "AARRR":"데이브 맥클루어의 해적 지표(획득·활성·유지·추천·수익). 사용자 생애주기를 단계로 나눠 어디서 가치가 만들어지고 새는지 측정하기 위한 프레임.",
+  "Goodhart's Law":"'지표가 목표가 되면 더는 좋은 지표가 아니다'. 단일 지표 최적화의 부작용을 경계해, North Star 1~2개 옆에 견제용 Health 지표를 함께 두기 위한 원칙.",
+  "Leaky Bucket":"'새는 양동이' 비유. 아무리 신규 유입이 많아도 빠져나가면 성장하지 않는다는 관점에서, 주요 이탈 지점을 찾아 막기 위한 개념.",
+};
+
 const SUBMAP = {};
 BIBX.forEach(s=>s.subs.forEach(x=>SUBMAP[x.key]=x));
 
@@ -452,11 +540,14 @@ function renderBibx() {
         const tpl = t[2] ? `<span class="tpl">→ ${t[2].join(" · ")}</span>` : `<span class="tpl">→ 자유 서술</span>`;
         return `<div class="fw-opt" id="fw-${s.key}-${i}" onclick="toggleFw('${s.key}',${i})"><div class="ck">✓</div><div class="ft"><b>${t[0]}</b> — ${t[1]}<br>${tpl}</div></div>`;
       }).join("");
+      const mthRows = s.th.map(t=>`<div class="mth"><div class="mth-n">${t[0]}</div><div class="mth-d">${METHOD_DESC[t[0]]||t[1]}</div></div>`).join("");
       html += `<div class="sub">
-        <div class="sub-head"><span class="sub-name">${s.name}</span><span class="info-btn" id="ib-${s.key}" onclick="toggleTheory('${s.key}')">ⓘ 방법론 ${s.th.length}</span><span class="info-btn chk" onclick="checkSub('${s.key}')">✓ 점검</span></div>
+        <div class="sub-head"><span class="sub-name">${s.name}</span><span class="info-btn" id="ib-${s.key}" title="이 버튼을 클릭해 이 항목에 사용할 방법론을 선택하세요" onclick="toggleTheory('${s.key}')">ⓘ 방법론 선택 ${s.th.length}</span><span class="info-btn chk" onclick="checkSub('${s.key}')">✓ 점검</span></div>
         <div class="todo">${s.todo}</div>
-        <div class="theory" id="th-${s.key}"><div class="lead">방법론 선택 — 선택하면 빈칸이 그 구조로 바뀝니다 (복수 선택 가능)</div><div class="fw-opts">${opts}</div><div class="guide">${s.guide}</div></div>
+        <div class="theory" id="th-${s.key}"><div class="lead">이 항목에 사용할 방법론을 선택하세요 — 선택하면 빈칸이 그 구조로 바뀝니다 (복수 선택 가능)</div><div class="fw-opts">${opts}</div><div class="guide">${s.guide}</div></div>
         <div class="fields" id="fields-${s.key}"></div>
+        <div class="mth-foot"><span class="info-btn detail" id="ibd-${s.key}" title="각 방법론이 어떤 의미로 만들어졌고, 어떤 결과를 도출하기 위한 건지 설명을 여기서 확인하세요" onclick="toggleDetail('${s.key}')">📖 방법론 설명 ${s.th.length}</span><span class="mth-hint">각 방법론의 의미·도출 목표를 펼쳐 확인하세요</span></div>
+        <div class="theory detail" id="thd-${s.key}"><div class="lead">방법론 해설 — 각 방법론이 어떤 의미로 만들어졌고, 어떤 결과를 도출하기 위한 것인지</div>${mthRows}</div>
       </div>`;
     });
     html += `</div>`;
@@ -495,6 +586,10 @@ function addCustom(k){
   inp.value=""; updateProgress();
 }
 function toggleTheory(key){ document.getElementById("th-"+key).classList.toggle("open"); }
+function toggleDetail(key){
+  const open=document.getElementById("thd-"+key).classList.toggle("open");
+  document.getElementById("ibd-"+key).classList.toggle("has", open);
+}
 
 function toggleFw(key, idx){
   const s=subState(key), name=SUBMAP[key].th[idx][0];
