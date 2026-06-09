@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Design Guide — 브랜드 기초설계 → 디자인 기초설계</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink:#1F1D1D; --mute:#6b6b6b; --line:#e5e3e0; --bg:#fff;
+    --soft:#f5f4f2; --orange:#F0844A; --navy:#003759; --code:#f4f1ec; --ok:#1e7a46;
+  }
+  html, body { background: var(--soft); color: var(--ink);
+    font-family: "Pretendard","Apple SD Gothic Neo","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size: 15.5px; line-height: 1.62; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+  .mono { font-family: "Space Mono","SF Mono",ui-monospace,Menlo,monospace; }
+
+  .topbar { background: var(--bg); border-bottom: 2px solid var(--ink); padding: 14px 24px; position: sticky; top: 0; z-index: 50; }
+  .topbar .demo-link { position: absolute; top: 14px; right: 24px; font-size: 12.5px; font-weight: 700; color: var(--navy); text-decoration: none; border: 1px solid var(--navy); border-radius: 999px; padding: 7px 14px; background: #fff; transition: all .12s; }
+  .topbar .demo-link:hover { background: var(--navy); color: #fff; }
+  .topbar .eyebrow { font-size: 11px; letter-spacing: 0.2em; color: var(--orange); font-weight: 600; text-transform: uppercase; }
+  .topbar h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-top: 2px; }
+  .stagebar { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+  .stagebar .st { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; font-size: 13.5px; font-weight: 600; color: var(--mute); cursor: pointer; background: var(--soft); }
+  .stagebar .st.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .stagebar .st.locked { opacity: .5; cursor: not-allowed; }
+  .stagebar .st .n { width: 18px; height: 18px; border-radius: 50%; background: var(--orange); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+  .stagebar .arr { color: #ccc; }
+  .stagebar .prog { margin-left: auto; font-size: 13.5px; color: var(--mute); }
+  .stagebar .prog b { color: var(--orange); }
+
+  .stage { display: none; } .stage.active { display: block; }
+
+  .a-wrap { max-width: 1120px; margin: 0 auto; padding: 28px 28px 70px; }
+  .sec { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 26px 30px; margin-bottom: 18px; }
+  .sec .sec-head { display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 6px; }
+  .sec .sec-head .no { font-size: 32px; font-weight: 800; letter-spacing: -.02em; }
+  .sec .sec-head h2 { font-size: 20px; font-weight: 700; }
+  .sec .sec-head .intro { font-size: 13px; color: var(--mute); margin-left: auto; max-width: 46%; text-align: right; }
+
+  .sub { padding: 16px 0; border-bottom: 1px dashed var(--line); }
+  .sub:last-child { border-bottom: none; }
+  .sub .sub-head { display: flex; align-items: center; gap: 8px; }
+  .sub .sub-name { font-size: 15.5px; font-weight: 700; }
+  .sub .info-btn { font-size: 12.5px; color: var(--navy); border: 1px solid var(--line); border-radius: 999px; padding: 2px 11px; cursor: pointer; user-select: none; font-weight: 600; }
+  .sub .info-btn:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .sub .info-btn.has { background: var(--navy); color:#fff; border-color: var(--navy); }
+  .sub .info-btn.chk { color: var(--orange); margin-left: auto; }
+  .sub .info-btn.chk:hover { background: var(--orange); color:#fff; border-color: var(--orange); }
+  .addrow { display: flex; gap: 6px; margin-top: 8px; }
+  .addrow input { flex: 1; }
+  .addbtn { border: 1px solid var(--line); background: var(--bg); border-radius: 8px; padding: 0 16px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .addbtn:hover { border-color: var(--ink); }
+  .sub .todo { font-size: 13.5px; color: var(--mute); margin: 6px 0 9px; }
+  .sub .todo::before { content: "TO-DO  "; font-size: 9.5px; font-weight: 700; color: var(--orange); letter-spacing: .08em; }
+
+  /* methodology picker */
+  .theory { display: none; margin: 8px 0; background: var(--code); border-left: 3px solid var(--navy); border-radius: 0 8px 8px 0; padding: 12px 14px; }
+  .theory.open { display: block; }
+  .theory .lead { font-size: 12.5px; font-weight: 700; color: var(--navy); letter-spacing: .03em; margin-bottom: 9px; }
+  .fw-opts { display: grid; gap: 6px; }
+  .fw-opt { display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; cursor: pointer; }
+  .fw-opt:hover { border-color: var(--navy); }
+  .fw-opt.on { border-color: var(--navy); background: #f1f6f9; }
+  .fw-opt .ck { width: 16px; height: 16px; border: 1.5px solid #c5c0b8; border-radius: 5px; flex-shrink: 0; margin-top: 2px; display:flex; align-items:center; justify-content:center; font-size: 11px; color:#fff; }
+  .fw-opt.on .ck { background: var(--navy); border-color: var(--navy); }
+  .fw-opt .ft { font-size: 13.5px; line-height: 1.45; }
+  .fw-opt .ft b { color: var(--ink); }
+  .fw-opt .ft .tpl { color: var(--navy); font-weight: 600; }
+  .theory .guide { margin-top: 10px; padding-top: 9px; border-top: 1px dashed #d9d3c9; font-size: 13.5px; }
+  .theory .guide::before { content: "→ "; color: var(--orange); font-weight: 700; }
+
+  /* input fields */
+  .fields { margin-top: 8px; }
+  textarea, input.fw-in { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; font-family: inherit; font-size: 15px; line-height: 1.55; background: #fafafa; resize: vertical; }
+  textarea { min-height: 52px; } input.fw-in { min-height: 0; }
+  textarea:focus, input.fw-in:focus { outline: none; border-color: var(--orange); background: #fff; }
+  .fwgroup { border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; margin-bottom: 8px; background: #fcfbfa; }
+  .fwgroup .fwname { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 8px; letter-spacing: .02em; }
+  .fwfield { margin-bottom: 8px; } .fwfield:last-child { margin-bottom: 0; }
+  .fwfield label { display:block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+
+  .chips-label { font-size: 14px; font-weight: 700; margin: 14px 0 7px; display:flex; align-items:center; gap:8px; }
+  .chips-label:first-child { margin-top: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 14px; cursor: pointer; user-select: none; background: #fafafa; }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip.on.warn { background: #b3261e; border-color: #b3261e; }
+
+  .stageA-foot { display: flex; gap: 10px; align-items: center; }
+  .btn { border: none; border-radius: 9px; padding: 13px 22px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .btn-primary { background: var(--orange); color: #fff; } .btn-primary:disabled { background: #e3d8d0; cursor: not-allowed; }
+  .btn-ghost { background: var(--bg); border: 1px solid var(--line); color: var(--ink); }
+  .btn-navy { background: var(--navy); color: #fff; }
+  .foot-note { font-size: 13px; color: var(--mute); }
+
+  .b-layout { display: grid; grid-template-columns: minmax(480px, 1fr) minmax(540px, 1.05fr); }
+  @media (max-width: 980px) { .b-layout { grid-template-columns: 1fr; } }
+  .b-left { padding: 22px; } .b-right { padding: 22px 22px 22px 4px; position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; }
+  @media (max-width: 980px) { .b-right { position: static; height: auto; padding: 4px 22px 22px; } }
+  .card { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; }
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; } .card .sub-h { font-size: 13px; color: var(--mute); margin-bottom: 12px; }
+  .prop { padding: 14px 0; border-bottom: 1px dashed var(--line); } .prop:last-child { border-bottom: none; }
+  .prop .pn { font-size: 14.5px; font-weight: 700; } .prop .pv { font-size: 14.5px; color: #333; margin-top: 5px; }
+  .prop .pv code { background: var(--code); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+  .prop .ptheory { font-size: 12.5px; color: var(--navy); margin-top: 6px; }
+  .prop .ptheory .tag { display: inline-block; background: #eef3f6; color: var(--navy); border-radius: 4px; padding: 1px 6px; margin: 0 3px 3px 0; font-weight: 600; }
+  .prop .preflect { font-size: 12.5px; color: var(--orange); margin-top: 4px; } .prop .preflect::before { content: "반영 "; color: var(--mute); }
+  .prop .ptheory .tag { cursor: pointer; }
+  .prop .ptheory .tag:hover { background: var(--navy); color: #fff; }
+  .prop .tdesc { display: none; font-size: 12.5px; color: #444; background: var(--code); border-radius: 6px; padding: 10px 12px; margin-top: 6px; line-height: 1.55; }
+  .prop .tdesc.open { display: block; }
+  .prop .tdesc b { color: var(--navy); }
+  .prop .acts { display: flex; gap: 6px; margin-top: 8px; }
+  .prop .act { font-size: 12.5px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; cursor: pointer; font-weight: 600; user-select: none; }
+  .prop .act.chk { color: var(--orange); } .prop .act.chk:hover { background: var(--orange); color:#fff; border-color: var(--orange); }
+  .prop .act.edit { color: var(--navy); } .prop .act.edit:hover { background: var(--navy); color:#fff; border-color: var(--navy); }
+  .prop .editbox { display: none; margin-top: 8px; }
+  .prop .editbox.open { display: block; }
+  .prop .editbox textarea { min-height: 42px; }
+  .prop .act.brief { color: var(--ink); } .prop .act.brief:hover { background: var(--ink); color:#fff; border-color: var(--ink); }
+  .prop .pbrief { display: none; margin-top: 8px; background: #fbfaf8; border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; }
+  .prop .pbrief.open { display: block; }
+  .prop .pbrief .pb-row { display: grid; grid-template-columns: 130px 1fr; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 12.5px; }
+  .prop .pbrief .pb-row:last-child { border-bottom: none; }
+  .prop .pbrief .pb-l { font-weight: 700; color: var(--navy); }
+  .prop .pbrief .pb-t { color: #333; line-height: 1.5; }
+  .pgroup { font-size: 13px; font-weight: 800; color: var(--ink); margin: 16px 0 2px; padding-top: 10px; border-top: 2px solid var(--ink); letter-spacing: -.01em; }
+  .pgroup:first-child { margin-top: 0; }
+  /* 조정 패널 */
+  .adj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 16px; }
+  .adj-grid label { font-size: 12px; font-weight: 600; color: var(--mute); display: flex; flex-direction: column; gap: 4px; }
+  .adj-grid output { color: var(--navy); font-weight: 700; }
+  .adj-grid input[type=range] { width: 100%; accent-color: var(--orange); }
+  .adj-grid select { font-family: inherit; font-size: 13px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 7px; background: #fafafa; }
+  /* 미리보기 디자인 시스템 */
+  .pv-sec { padding: 13px 0; border-bottom: 1px dashed var(--line); } .pv-sec:last-of-type { border-bottom: none; }
+  .pv-t { font-size: 11px; font-weight: 700; color: var(--mute); letter-spacing: .05em; margin-bottom: 9px; text-transform: uppercase; }
+  .pv-sw { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pv-c { width: 56px; text-align: center; } .pv-c span { display: block; height: 38px; border-radius: 7px; border: 1px solid rgba(0,0,0,.08); } .pv-c i { font-size: 10px; color: var(--mute); font-style: normal; }
+  .pv-type { padding: 4px 0; border-bottom: 1px dashed var(--line); letter-spacing: -.01em; } .pv-type:last-child { border-bottom: none; }
+  .pv-btn { font-family: inherit; font-weight: 700; padding: 9px 16px; cursor: default; }
+  .pv-badge { font-size: 11px; font-weight: 600; border-radius: 999px; padding: 3px 10px; }
+  .pv-input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); font-size: 13px; background: #fafafa; margin-bottom: 11px; }
+  .pv-steps { display: flex; align-items: center; gap: 6px; } .pv-steps span { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; } .pv-steps i { flex: 1; height: 2px; background: var(--line); max-width: 32px; }
+  /* 기능색 분리 블록 */
+  .pv-fn { padding: 13px 14px; margin: 4px 0 0; background: #faf9f7; border: 1px dashed var(--line); border-radius: 9px; }
+  .pv-note { font-weight: 400; text-transform: none; color: #aaa; letter-spacing: 0; font-size: 10.5px; }
+  /* 라인 위계 */
+  .pv-line { display: flex; align-items: center; gap: 10px; margin: 5px 0; } .pv-line span { font-size: 11px; color: var(--mute); width: 84px; font-family: "Space Mono",monospace; flex-shrink: 0; } .pv-line hr { flex: 1; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+  .swatch { width: 72px; } .swatch .box { height: 52px; border-radius: 8px; border: 1px solid rgba(0,0,0,.08); }
+  .swatch .nm { font-size: 11px; color: var(--mute); margin-top: 4px; } .swatch .vl { font-size: 10px; color: #aaa; }
+  .mock-frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  #mockup { --m-primary:#003759; --m-accent:#F0844A; --m-text:#1F1D1D; --m-mute:#6b6b6b; --m-soft:#f5f4f2;
+    --m-radius:8px; --m-gap:16px; --m-base:16px; --m-ratio:1.25; --m-lh:1.6; --m-hw:700;
+    background:#fff; color: var(--m-text); padding: calc(var(--m-gap)*1.4); font-size: var(--m-base); line-height: var(--m-lh); }
+  #mockup .eyebrow { font-family:"Space Mono",monospace; color: var(--m-accent); font-size: calc(var(--m-base)*0.7); letter-spacing:.1em; text-transform: uppercase; }
+  #mockup h4 { font-size: calc(var(--m-base)*var(--m-ratio)*var(--m-ratio)); font-weight: var(--m-hw); line-height:1.15; margin: calc(var(--m-gap)*0.4) 0; letter-spacing:-.02em; }
+  #mockup p.lead { color: var(--m-mute); margin-bottom: var(--m-gap); }
+  #mockup .divider { height:1px; background: var(--m-soft); margin: var(--m-gap) 0; }
+  #mockup .trust { display:flex; gap: calc(var(--m-gap)*0.5); flex-wrap: wrap; margin-bottom: var(--m-gap); }
+  #mockup .trust span { font-size: calc(var(--m-base)*0.76); background: var(--m-soft); border-radius:999px; padding:4px 10px; border:1px solid rgba(0,0,0,.06); }
+  #mockup .cta { display:inline-block; background: var(--m-accent); color:#fff; border:none; border-radius: var(--m-radius); padding: calc(var(--m-gap)*0.7) calc(var(--m-gap)*1.2); font-size: var(--m-base); font-weight:700; }
+  #mockup .feats { list-style:none; margin-top: var(--m-gap); display:grid; gap: calc(var(--m-gap)*0.55); }
+  #mockup .feats li { font-size: calc(var(--m-base)*0.9); padding-left:20px; position:relative; }
+  #mockup .feats li::before { content:"›"; position:absolute; left:0; color: var(--m-primary); font-weight:700; }
+  .reflect-note { font-size: 13px; color: var(--mute); margin-top: 11px; padding-top: 11px; border-top: 1px dashed var(--line); }
+  .reflect-note .src { color: var(--navy); font-weight: 600; }
+  .b-actions { display:flex; gap:8px; margin-bottom:14px; flex-wrap: wrap; }
+
+  #print-area { display: none; }
+  .brief { max-width: 760px; margin: 0 auto; padding: 30px; }
+  .brief h1 { font-size: 26px; margin-bottom: 4px; }
+  .brief .meta { font-size: 12px; color: var(--mute); margin-bottom: 20px; }
+  .brief h2 { font-size: 15px; border-bottom: 2px solid var(--ink); padding-bottom: 5px; margin: 22px 0 10px; }
+  .brief .bsub { font-size: 12.5px; font-weight: 700; margin-top: 10px; }
+  .brief .bans { font-size: 12.5px; color: #333; margin: 2px 0; white-space: pre-wrap; }
+  .brief .bth { font-size: 11px; color: var(--navy); margin-top: 2px; }
+  .brief .empty { color: #bbb; font-style: italic; }
+  @media print { body.printing .app { display: none !important; } body.printing #print-area { display: block !important; } @page { margin: 16mm 14mm; } }
+</style>
+</head>
+<body>
+
+<div class="app">
+<div class="topbar">
+  <a class="demo-link" href="demo-meetingroom.html" target="_blank" rel="noopener">↗ 완성 예시 보기 (미팅룸 데모)</a>
+  <div class="eyebrow">Meetingroom · Brand Design Guide</div>
+  <h1>브랜드 기초설계 → 디자인 기초설계 가이드</h1>
+  <div class="stagebar">
+    <div class="st active" id="tab-a" onclick="goStage('a')"><span class="n">1</span> 브랜드 기초 설계</div>
+    <span class="arr">→</span>
+    <div class="st locked" id="tab-b" onclick="goStage('b')"><span class="n">2</span> 디자인 기초 설계</div>
+    <div class="prog">브랜드 입력 <b id="prog">0%</b></div>
+  </div>
+</div>
+
+<!-- STAGE A -->
+<div class="stage active" id="stage-a">
+  <div class="a-wrap">
+    <div id="bibx-sections"></div>
+    <div class="sec" style="border-color:var(--orange);">
+      <div class="stageA-foot">
+        <button class="btn btn-navy" onclick="printBrief('brand')">⌘ 브랜드 기초설계 브리프 PDF</button>
+        <button class="btn btn-primary" id="go-design" disabled onclick="completeBrand()">브랜드 설계 완료 → 디자인 단계로 →</button>
+      </div>
+      <div class="foot-note" style="margin-top:8px;">각 질문의 <b>ⓘ 방법론</b>을 펼쳐 적용 방법론을 1개 또는 복수 선택하면 빈칸이 그 구조(예: 골든서클 → Why/How/What)로 바뀝니다. 선택 없이 자유 서술도 가능합니다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE B -->
+<div class="stage" id="stage-b">
+  <div class="b-layout">
+    <div class="b-left">
+      <div class="card">
+        <h3>자동 제안 — 설계 리스트</h3>
+        <div class="sub-h">브랜드 기초설계 입력을 근거로 자동 도출된 디자인 스펙 제안. 각 항목에 <b>적용 이론</b>과 <b>반영된 입력</b>을 표기합니다.</div>
+        <div id="proposals"></div>
+      </div>
+      <div class="b-actions">
+        <button class="btn btn-navy" onclick="printBrief('design')">⌘ 디자인 설계 브리프 PDF</button>
+        <button class="btn btn-ghost" onclick="goStage('a')">← 브랜드 단계로</button>
+        <button class="btn btn-ghost" onclick="copyDesignPrompt()">📋 Claude 프롬프트 복사</button>
+      </div>
+    </div>
+    <div class="b-right">
+      <div class="card">
+        <h3>조정 — 디테일 직접 수정</h3>
+        <div class="sub-h">자동 도출값을 직접 바꿔 미리보기에 즉시 반영합니다. <span onclick="resetTweak()" style="color:var(--orange);cursor:pointer;font-weight:700;">↺ 자동값으로 초기화</span></div>
+        <div class="adj-grid">
+          <label>주조색 Hue <output id="o-hue"></output><input type="range" id="adj-hue" min="0" max="360" oninput="setTweak('hue',+this.value)"></label>
+          <label>채도 <output id="o-sat"></output><input type="range" id="adj-sat" min="10" max="90" oninput="setTweak('sat',+this.value)"></label>
+          <label>액센트 Hue <output id="o-acc"></output><input type="range" id="adj-accentHue" min="0" max="360" oninput="setTweak('accentHue',+this.value)"></label>
+          <label>카드 반경 <output id="o-rad"></output><input type="range" id="adj-radius" min="0" max="20" oninput="setTweak('radius',+this.value)"></label>
+          <label>버튼 반경 <output id="o-radbtn"></output><input type="range" id="adj-radiusBtn" min="0" max="24" oninput="setTweak('radiusBtn',+this.value)"></label>
+          <label>텍스트 박스 반경 <output id="o-radfield"></output><input type="range" id="adj-radiusField" min="0" max="24" oninput="setTweak('radiusField',+this.value)"></label>
+          <label>본문 크기<select id="adj-base" onchange="setTweak('base',+this.value)"><option>15</option><option>16</option><option>17</option><option>18</option></select></label>
+          <label>스케일비<select id="adj-ratio" onchange="setTweak('ratio',+this.value)"><option value="1.2">1.2</option><option value="1.25">1.25</option><option value="1.333">1.333</option></select></label>
+          <label>간격 단위<select id="adj-baseUnit" onchange="setTweak('baseUnit',+this.value)"><option>4</option><option>8</option></select></label>
+          <label>밀도<select id="adj-airy" onchange="setTweak('airy',this.value==='1')"><option value="0">표준</option><option value="1">여유</option></select></label>
+          <label>본문 행간<select id="adj-lh" onchange="setTweak('lh',+this.value)"><option value="1.5">1.5</option><option value="1.6">1.6</option><option value="1.7">1.7</option></select></label>
+          <label>한 화면 선택지<select id="adj-maxChoices" onchange="setTweak('maxChoices',+this.value)"><option>3</option><option>4</option><option>5</option></select></label>
+        </div>
+      </div>
+      <div class="card">
+        <h3>실시간 미리보기</h3>
+        <div class="sub-h">현재 토큰이 적용된 디자인 시스템 예시. 위 '조정'으로 값을 바꾸면 즉시 반영됩니다.</div>
+        <div id="preview-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="print-area"><div class="brief" id="brief-content"></div></div>
+
+<script>
+/* ====================================================================
+   BIBX — 6섹션. 각 하위항목의 방법론은 [이름, 설명, 입력템플릿?] 형식.
+   템플릿이 있으면 선택 시 그 구조의 빈칸으로 바뀐다. 없으면 단일 칸.
+   ==================================================================== */
+const BIBX = [
+  { no:"01", title:"서비스 모델 정의", intro:'"누구의 어떤 문제를 어떻게 해결하는가"를 한 줄로.', subs:[
+    { key:"a1_line", name:"서비스 한 줄 정의", todo:"누구에게 / 어떤 문제 / 어떤 변화 — 한 문장으로",
+      th:[ ["SUCCESs (Heath)","Simple=핵심의 압축. 한 줄이 안 되면 셋 중 하나가 모호한 것",["핵심 압축 한 줄"]],
+           ["Golden Circle (Sinek)","Why→How→What 순서로 정의해야 본질에서 출발",["Why · 왜 존재하는가","How · 어떻게 하는가","What · 무엇을 만드는가"]] ],
+      guide:"누구·문제·변화가 한 문장에 모두 들어갈 때까지 압축." },
+    { key:"a1_problem", name:"문제 정의", todo:"가장 큰 문제(빈도×강도×비용) + 근본 원인",
+      th:[ ["Lean Startup (Painful Problem)","돈 내고 풀고 싶은 문제가 아니면 무의미",["가장 아픈 문제 한 줄"]],
+           ["5 Whys","'왜?'를 반복해 근본 문제까지",["표면 문제","왜?①","왜?②","왜?③","근본 문제"]],
+           ["Switching Forces (Moesta)","기존 해결책을 폐기하는 이유",["Push 현재 불만","Pull 새 매력","Anxiety 불안","Habit 관성"]] ],
+      guide:"표면 문제와 근본 문제를 나눠, 근본까지 내려가기." },
+    { key:"a1_value", name:"제공 가치", todo:"Before→After 상태 전환 + 가치 층위",
+      th:[ ["Prospect Theory","얻는 이익 + '잃지 않게 되는 것'(손실 회피)",["얻는 이익","더 잃지 않는 것"]],
+           ["Self-Discrepancy","현재의 나 → 되고 싶은 나",["현재(Actual Self)","이용 후(Ideal Self)"]],
+           ["Elements of Value (Bain)","기능→정서→정체성 3층",["기능적 가치","정서적 가치","정체성 가치"]] ],
+      guide:"기능 나열 아닌 '상태 전환'으로, 정체성 변화까지." },
+    { key:"a1_process", name:"가치 창출 프로세스", todo:"첫 접점 / Activation / 핵심 경험 / 산출물",
+      th:[ ["Service Blueprinting","사용자 행동 vs 시스템 작동",["첫 접점","무대 위(Frontstage)","무대 뒤(Backstage)","최종 산출물"]],
+           ["Hook Model (Eyal)","Trigger→Action→Reward→Investment",["Trigger","Action","Variable Reward","Investment"]],
+           ["Aha Moment","핵심 가치를 처음 체감하는 순간",["Aha 순간(15분·1클릭)"]] ],
+      guide:"'15분 안에 1클릭으로 가치 체감' Activation을 특정." },
+    { key:"a1_diff", name:"차별성", todo:"ERRC + 카테고리 1번 속성",
+      th:[ ["Blue Ocean ERRC","제거·감소·증가·창조로 가치 곡선 재설계",["제거 Eliminate","감소 Reduce","증가 Raise","창조 Create"]],
+           ["Activity System (Porter)","다르게 하는 활동들의 결합",["서로 강화되는 활동들"]],
+           ["Ries & Trout","카테고리 내 1번 속성",["우리가 1번인 단 하나의 속성"]] ],
+      guide:"'더 잘하는 것'이 아니라 '다르게 하는 것'." },
+  ]},
+  { no:"02", title:"브랜드 철학 정의", intro:"철학은 슬로건이 아니라 의사결정의 기준.", subs:[
+    { key:"a2_view", name:"문제에 대한 관점", todo:"대안적 프레임 + 흔한 오해",
+      th:[ ["Worldview Marketing","이미 가진 신념을 더 잘 표현",["사용자가 이미 가진 신념","우리가 강화하는 프레임"]],
+           ["Attribute Substitution","쉬운 질문으로 바꿔치기되는 본질",["흔히 대체되는 질문","진짜 본질 질문"]] ],
+      guide:"기존 통념을 반박하는 대안적 프레임을." },
+    { key:"a2_cause", name:"문제의 원인", todo:"구조적 원인 + 반복 이유",
+      th:[ ["Systems Thinking","사건→패턴→구조→멘탈모델",["사건","패턴","구조","멘탈모델"]],
+           ["Status Quo Bias","변화 비용 vs 불명확한 보상",["변화의 인지비용","불명확한 보상"]] ],
+      guide:"표면(시간 부족) 말고 구조적 원인까지." },
+    { key:"a2_believe", name:"우리가 믿는 것", todo:"양보 불가 신념 + 진짜 필요한 것",
+      th:[ ["Core Values","양보 않을 신념 5~6개",["신념 1","신념 2","신념 3","신념 4","신념 5"]],
+           ["Self-Determination Theory","자율성·유능감·관계성",["자율성(스스로 결정)","유능감(잘 할 수 있다)","관계성(연결)"]] ],
+      guide:"'운영 가능한 신념'으로 (슬로건 X)." },
+    { key:"a2_change", name:"우리가 만들고 싶은 변화", todo:"목표 상태 + 사고·행동 변화",
+      th:[ ["Theory of Change","Output→Outcome→Impact",["Output 산출","Outcome 행동 변화","Impact 인식 변화"]],
+           ["Frame Shift","사고법 자체의 전환",["기존 프레임","바뀐 프레임"]],
+           ["Tiny Habits (Fogg)","작은 반복 행동",["기존 행동(앵커)","새 작은 행동"]] ],
+      guide:"산출이 아니라 '사고방식이 바뀐 사람'을 목표로." },
+    { key:"a2_not", name:"우리가 하지 않을 것", todo:"안 할 것 + 안 쓸 설득 방식",
+      th:[ ["Strategy is sacrifice","안 할 것을 정해야 차별화",["절대 제공 안 할 것"]],
+           ["False Scarcity 경계","신뢰는 한 번의 과장으로 손상",["절대 안 쓸 설득 방식"]] ],
+      guide:"Not-To-Do List는 차별화의 직접 표현." },
+    { key:"a2_manifesto", name:"브랜드 선언문", todo:"존재 이유 / 미래 / 역할",
+      th:[ ["Manifesto 4요소","존재 이유·적대자·약속·초대",["존재 이유","적대자","약속","초대"]],
+           ["BHAG (Collins)","10~30년 거대 목표",["거대 목표(시점 포함)"]],
+           ["Brand Archetype","12원형 중 인격",["선택한 아키타입","선택 이유"]] ],
+      guide:"아키타입을 정하면 디자인 톤·보이스의 기준이 됨." },
+  ]},
+  { no:"03", title:"고객 정의", intro:"페르소나는 데이터 평균이 아니라 의사결정의 대리인.", subs:[
+    { key:"a3_basic", name:"기본 정보", todo:"상황 + 3층 목표",
+      th:[ ["Goal-Directed Persona","핵심은 '무엇을 달성하려는가'",["상황(Context)","목표(Goal)","현재 행동 패턴"]],
+           ["3층 목표","기능·정서·사회",["기능 목표","정서 목표","사회적 목표"]] ],
+      guide:"'30대 여성' 말고 '~을 2주 안에 정해야 하는 1년차 사장'." },
+    { key:"a3_now", name:"현재 상태", todo:"고민 + 불안 + 실패 경험",
+      th:[ ["Pain 식별","강도×빈도×회피가능성",["강도","빈도","회피 가능성"]],
+           ["Ambiguity Aversion","'뭘 하는지 모르겠어'",["모호함의 정체"]],
+           ["Learned Helplessness","반복 실패의 학습",["반복된 실패 경험"]] ],
+      guide:"불안을 '실패할까봐'가 아니라 '모호함'으로 짚기." },
+    { key:"a3_desire", name:"욕망", todo:"심층 욕망 + 되고 싶은 사람",
+      th:[ ["Self-Discrepancy","Ideal Self를 향한 끌림",["되고 싶은 나(Ideal Self)"]],
+           ["Identity Marketing","어떤 사람이 되는가",["되고 싶은 사람상"]],
+           ["Elements of Value","불안 해소·희망·자아실현",["Reduces Anxiety","Provides Hope","Self-Actualization"]] ],
+      guide:"표면 욕망(매출↑)이 아니라 심층(자랑스러움)까지." },
+    { key:"a3_fear", name:"두려움", todo:"잃기 싫은 것 + 걱정하는 실패",
+      th:[ ["Loss Aversion (λ2.25)","손실은 이익의 2배 무게",["잃기 싫은 것(돈·시간·자존감·관계)"]],
+           ["Sunk Cost","무의미해질까 두려운 투자",["헛될까 두려운 기존 투자"]],
+           ["Social Failure","공개적 실패가 3배 회피",["공개적으로 걱정되는 실패"]],
+           ["Anticipated Regret","후회 회피 → 결정 미룸",["미루게 만드는 후회"]] ],
+      guide:"'되돌릴 수 있다는 감각'이 필요함을 기억." },
+    { key:"a3_voc", name:"자주 하는 말", todo:"실제 질문 + 표현 + 반복 호소",
+      th:[ ["Voice of Customer","사용자 단어 그대로",["실제 하는 질문","자주 쓰는 표현"]],
+           ["USP","반복 호소 = 미해결 욕구",["반복하는 호소"]] ],
+      guide:"질문의 깊이로 준비도를 진단." },
+  ]},
+  { no:"04", title:"고객 여정 정의", intro:"여정은 시간 축이 아니라 심리 상태의 변화 축.", subs:[
+    { key:"a4_start", name:"시작 상태", todo:"만나기 전 상태 + 감정",
+      th:[ ["Status Quo","무엇을 두고 떠나야 하나",["두고 떠나야 하는 것"]],
+           ["Anxiety + Hope","둘의 혼재",["불안","희망"]] ],
+      guide:"불안만→회피, 희망만→미룸. 혼재를 적기." },
+    { key:"a4_aware", name:"단계1 · 문제 인식", todo:"계기 + 느낌 + 저항",
+      th:[ ["Fogg Trigger 3종","Spark·Facilitator·Signal",["Spark 동기","Facilitator 능력 보조","Signal 리마인더"]],
+           ["Mimetic Desire","타인의 욕망 모방",["모방 대상"]],
+           ["Reactance","강요받으면 거꾸로",["피해야 할 강요형 표현"]] ],
+      guide:"'지금 하세요'가 아니라 '이미 느끼는 그것'을 언어화." },
+    { key:"a4_explore", name:"단계2 · 탐색", todo:"찾는 정보 + 의심",
+      th:[ ["Information Foraging","단서가 명확해야",["1차 Social Proof","2차 How-to","3차 Case"]],
+           ["Reference Group","나와 비슷한 사람",["닮고 싶은 기준 집단"]] ],
+      guide:"의심 3종(통할까/끝까지 쓸까/내가 할 수도)을 해소." },
+    { key:"a4_trust", name:"단계3 · 신뢰 형성", todo:"신뢰 근거 + 필요 정보",
+      th:[ ["Cialdini","Authority+SocialProof+Consistency",["전문성(Authority)","사회적 증거","일관성"]],
+           ["Mirror Testimonial","닮은 처지 후기",["거울 후기"]],
+           ["Buyer's Remorse","사전 불안 해소",["환불·되돌리기 장치"]] ],
+      guide:"받을 것/시간/할 일(Clarity 3종)을 명확히." },
+    { key:"a4_decide", name:"단계4 · 결정", todo:"결정 방해 + 확신 + CTA",
+      th:[ ["Choice Overload","3~5개가 최적",["핵심 선택지 수","기본값(default)"]],
+           ["정서적 확신","'나를 위한 거구나'",["개인화 메시지"]],
+           ["CTA","1개·구체·동사형",["CTA 문구"]] ],
+      guide:"CTA는 '첫 미팅봇과 5분 대화하기'처럼 구체·동사형." },
+    { key:"a4_act", name:"단계5 · 실행", todo:"첫 산출 순간 + 이탈 + 지원",
+      th:[ ["Implementation Intentions","언제·어디서·어떻게",["언제","어디서","어떻게"]],
+           ["TTFV","첫 가치까지 시간",["첫 의미있는 산출 순간"]] ],
+      guide:"가이드보다 '같이 가는 동반자 감각'." },
+    { key:"a4_done", name:"단계6 · 완료", todo:"성공 인식 + 감정 + 성취",
+      th:[ ["Peak-End Rule","정점·마지막이 기억 좌우",["정점 순간","마지막 순간"]],
+           ["Identity Shift","'내가 기준을 가졌다'",["정체성 변화 문장"]] ],
+      guide:"완료 순간의 만족·자랑이 공유 동력." },
+    { key:"a4_return", name:"단계7 · 재방문", todo:"재방문 이유 + 지속 가치 + 추천",
+      th:[ ["Hook Investment","쌓인 자산이 다음 트리거",["사용자가 쌓는 자산"]],
+           ["Social Currency","공유=자기표현",["공유 시 자기표현 가치"]] ],
+      guide:"'한 번 사용'이 아니라 '운영 도구'로." },
+  ]},
+  { no:"05", title:"성공 정의", intro:"사용자 가치와 사업 가치가 같은 방향을 가리키게.", subs:[
+    { key:"a5_user", name:"사용자 성공", todo:"성공 정의 + 얻어야 할 결과",
+      th:[ ["Customer Success","Required × Appropriate",["Required Outcome 필수 결과","Appropriate Experience 적절 경험"]],
+           ["결과 3종","산출물+기준+공유자산",["가시 산출물","의사결정 기준","외부 공유 자산"]] ],
+      guide:"셋 다 있어야 1회성이 아님." },
+    { key:"a5_service", name:"서비스 성공 (North Star)", todo:"North Star + 핵심 행동",
+      th:[ ["North Star Metric","단일 핵심 지표",["North Star 지표"]],
+           ["AARRR","획득·활성·유지·추천·수익",["Activation","Retention","Referral"]] ],
+      guide:"단순 로그인 아닌 '실제 의사결정 활동'." },
+    { key:"a5_kpi", name:"KPI · 실패 신호", todo:"Primary + Health + 이탈",
+      th:[ ["Goodhart's Law","1~2 North Star + 3~5 Health",["Primary","Health 1","Health 2","Health 3"]],
+           ["Leaky Bucket","어디서 빠지나",["주요 이탈 지점"]] ],
+      guide:"체류시간은 KPI에서 제외(길수록 좋은 지표 아님)." },
+  ]},
+];
+
+const PSYCH = {
+  want:  { label:"얻고 싶은 감정", items:["확신","안정감","전문성","성취감","통제감","소속감","자부심"], warn:false,
+           theory:[["Broaden-and-Build","긍정 정서는 장기 자원을 축적"],["Emotional Design","Visceral·Behavioral·Reflective 3층"]] },
+  avoid: { label:"피하고 싶은 감정", items:["혼란","후회","불안","압박감","무기력","죄책감","열등감"], warn:true,
+           theory:[["Negativity Bias","부정 1회는 긍정 3~5회를 상쇄 — 나쁜 경험을 줄이는 게 우선"]] },
+  block: { label:"의사결정 방해요인", items:["정보 과부하","선택 피로","실패 공포","비용 부담","시간 부족","신뢰 부족"], warn:true,
+           theory:[["Cognitive Load Theory","Extraneous(불필요한 부하)를 0에 가깝게"]] },
+  trust: { label:"신뢰하는 요소", items:["숫자","사례","전문가","후기","브랜드 철학","프로세스 투명성"], warn:false,
+           theory:[["Cialdini","Authority+Social Proof+Consistency"],["Narrative Transportation","이야기는 통계보다 2배 설득"]] },
+  trig:  { label:"행동 계기", items:["긴급성","필요성","기회","보상","공감","목표 달성"], warn:false,
+           theory:[["Fogg B=MAT","동기×능력×트리거 동시 충족"],["Variable Reward / Goal Gradient","가변 보상·목표 근접"]] },
+};
+const HUE = { "확신":205,"안정감":190,"전문성":210,"통제감":215,"성취감":30,"자부심":265,"소속감":18 };
+
+/* 디자인 적용 이론 설명 (클릭 시 펼침) — Design·BI Build List PART 3 + BIBX 기반 */
+const THEORY_DESC = {
+  "색채이론":"색상환·명도/채도·온도로 팔레트 구성. 청색 계열=신뢰·안정, 따뜻한 색=친밀·성취. 60-30-10 분배와 대비를 함께 설계한다.",
+  "60-30-10":"화면 색 비율 원칙 — 60% 중립(배경)·30% 보조·10% 액센트. 액센트를 아껴야 시선 유도가 작동한다.",
+  "전주의적 처리":"색·크기·대비는 0.2초 내 무의식적으로 인지된다(Preattentive). 핵심 CTA·배지를 액센트로 두면 시선이 먼저 간다.",
+  "Cognitive Load":"작업기억은 용량 제한이 있고 인지부담은 본질·불필요·학습기여 3종. UX의 역할은 '불필요한 부하'를 0에 가깝게 만드는 것.",
+  "시각적 위계":"크기·굵기·색·여백으로 읽는 순서를 통제. 타입스케일·간격 규칙이 위계를 만든다(Z/F 패턴).",
+  "타이포 위계":"디스플레이/라벨(모노)/본문의 크기·웨이트·간격 리듬으로 정보 우선순위를 표현한다.",
+  "Miller":"작업기억 한계 7±2(실무 5±2). 한 화면·그룹의 항목 수를 청킹해 과부하를 막는다.",
+  "스위스 그리드":"뮐러-브로크만의 수학적 그리드. 질서·신뢰감을 만들고 모든 요소의 정렬 기준이 된다.",
+  "게슈탈트(근접)":"가까운 요소는 한 덩어리로 지각된다. 관련 요소는 좁게, 그룹 간은 넓게 배치해 구조를 드러낸다.",
+  "네거티브 스페이스":"여백 자체가 주목과 고급감을 만든다. 무드보드 호흡·카드 패딩에 적용.",
+  "형태 대비":"대/소·곡/직 형태 대비로 리듬과 의미를 구분한다(사각=정보·원=무드·알약=한 줄·블롭=컬러).",
+  "기호학/어포던스":"형태가 기능을 암시한다 — 핸들=크기조절, 점선=빈칸, 버튼=클릭 신호.",
+  "Hick's Law":"선택지가 많을수록 결정 시간이 로그함수로 증가. 옵션을 줄이고 기본값을 제시한다.",
+  "Choice Overload":"24개보다 6개 옵션일 때 결정률↑(아이엔가 잼 실험). 한 화면 선택지는 3~5개가 최적.",
+  "Cialdini":"설득 6원리(상호성·일관성·사회적 증거·권위·호감·희소성). 스몰브랜드엔 권위+사회적 증거가 가장 강하다.",
+  "직렬 위치":"초두·최신 항목이 가장 강하게 기억된다. 중요 정보를 리스트 상·하단에 배치.",
+  "도허티(400ms)":"응답이 0.4초 내면 몰입이 유지된다. 타이핑·로딩·채움 모션 타이밍을 그 안에 설계.",
+  "Peak-End":"경험의 기억은 정점과 마지막 순간이 좌우한다. 완료·다운로드 순간 디자인이 전체 만족을 결정.",
+  "자이가르닉":"미완성은 완성 욕구를 자극한다. 빈칸 양식·미배치 위젯이 채움을 유도.",
+  "Goal Gradient":"목표에 가까울수록 노력이 증가한다. 진행바·마일스톤으로 행동을 가속.",
+  "Brand Archetype":"융의 12원형 기반 브랜드 인격(현자·마법사·창조자 등). 로고·보이스·톤의 일관 기준.",
+  "CRAP 원칙":"대비(Contrast)·반복(Repetition)·정렬(Alignment)·근접(Proximity) — 디자인 일관성의 기본 점검표.",
+};
+
+const SUBMAP = {};
+BIBX.forEach(s=>s.subs.forEach(x=>SUBMAP[x.key]=x));
+
+const state = { sub:{}, want:new Set(),avoid:new Set(),block:new Set(),trust:new Set(),trig:new Set(), brandDone:false, tweak:{} };
+let PROPS = [];
+function subState(key){ if(!state.sub[key]) state.sub[key]={sel:[],vals:{},plain:""}; return state.sub[key]; }
+
+/* ---------- render STAGE A ---------- */
+function renderBibx() {
+  const root = document.getElementById("bibx-sections"); let html="";
+  BIBX.forEach(sec=>{
+    html += `<div class="sec"><div class="sec-head"><span class="no">${sec.no}</span><h2>${sec.title}</h2><span class="intro">${sec.intro}</span></div>`;
+    sec.subs.forEach(s=>{
+      const opts = s.th.map((t,i)=>{
+        const tpl = t[2] ? `<span class="tpl">→ ${t[2].join(" · ")}</span>` : `<span class="tpl">→ 자유 서술</span>`;
+        return `<div class="fw-opt" id="fw-${s.key}-${i}" onclick="toggleFw('${s.key}',${i})"><div class="ck">✓</div><div class="ft"><b>${t[0]}</b> — ${t[1]}<br>${tpl}</div></div>`;
+      }).join("");
+      html += `<div class="sub">
+        <div class="sub-head"><span class="sub-name">${s.name}</span><span class="info-btn" id="ib-${s.key}" onclick="toggleTheory('${s.key}')">ⓘ 방법론 ${s.th.length}</span><span class="info-btn chk" onclick="checkSub('${s.key}')">✓ 점검</span></div>
+        <div class="todo">${s.todo}</div>
+        <div class="theory" id="th-${s.key}"><div class="lead">방법론 선택 — 선택하면 빈칸이 그 구조로 바뀝니다 (복수 선택 가능)</div><div class="fw-opts">${opts}</div><div class="guide">${s.guide}</div></div>
+        <div class="fields" id="fields-${s.key}"></div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  html += `<div class="sec"><div class="sec-head"><span class="no">06</span><h2>UX 설계를 위한 심리 상태</h2><span class="intro">디자인 단계의 직접 근거. 해당하는 것 모두 선택.</span></div>`;
+  Object.entries(PSYCH).forEach(([k,p])=>{
+    const th=p.theory.map(([n,d])=>`<li style="font-size:12px;margin:4px 0"><b>${n}</b> — ${d}</li>`).join("");
+    html += `<div class="sub"><div class="chips-label">${p.label}<span class="info-btn" onclick="toggleTheory('psy_${k}')">ⓘ 이론 ${p.theory.length}</span></div>
+      <div class="theory" id="th-psy_${k}"><div class="lead">참고 이론</div><ul style="list-style:none">${th}</ul></div>
+      <div class="chips" id="chips-${k}"></div>
+      <div class="addrow"><input type="text" id="add-${k}" class="fw-in" placeholder="직접 추가 — 쉼표로 여러 개"><button class="addbtn" onclick="addCustom('${k}')">추가</button></div></div>`;
+  });
+  html += `</div>`;
+  root.innerHTML = html;
+
+  BIBX.forEach(sec=>sec.subs.forEach(s=>renderFields(s.key)));
+  Object.entries(PSYCH).forEach(([k,p])=>{
+    const el=document.getElementById("chips-"+k);
+    p.items.forEach(name=>{ const c=document.createElement("div"); c.className="chip"; c.textContent=name;
+      c.onclick=()=>{ const set=state[k]; if(set.has(name)){set.delete(name);c.classList.remove("on","warn");} else {set.add(name);c.classList.add("on"); if(p.warn)c.classList.add("warn");} updateProgress(); };
+      el.appendChild(c); });
+    const inp=document.getElementById("add-"+k);
+    if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); addCustom(k); } });
+  });
+}
+function addCustom(k){
+  const inp=document.getElementById("add-"+k), raw=(inp.value||"").trim(); if(!raw) return;
+  const cont=document.getElementById("chips-"+k), set=state[k], warn=PSYCH[k].warn;
+  raw.split(/[,，]/).map(s=>s.trim()).filter(Boolean).forEach(w=>{
+    if([...cont.children].some(c=>c.textContent===w)) { set.add(w); return; }
+    set.add(w);
+    const c=document.createElement("div"); c.className="chip on"+(warn?" warn":""); c.textContent=w;
+    c.onclick=()=>{ if(set.has(w)){set.delete(w);c.classList.remove("on","warn");} else {set.add(w);c.classList.add("on"); if(warn)c.classList.add("warn");} updateProgress(); };
+    cont.appendChild(c);
+  });
+  inp.value=""; updateProgress();
+}
+function toggleTheory(key){ document.getElementById("th-"+key).classList.toggle("open"); }
+
+function toggleFw(key, idx){
+  const s=subState(key), name=SUBMAP[key].th[idx][0];
+  const pos=s.sel.indexOf(name);
+  if(pos>=0) s.sel.splice(pos,1); else s.sel.push(name);
+  document.getElementById(`fw-${key}-${idx}`).classList.toggle("on", s.sel.includes(name));
+  document.getElementById(`ib-${key}`).classList.toggle("has", s.sel.length>0);
+  renderFields(key); updateProgress();
+}
+
+function renderFields(key){
+  const cont=document.getElementById("fields-"+key), s=subState(key), sub=SUBMAP[key];
+  if(!s.sel.length){
+    cont.innerHTML = `<textarea data-key="${key}" data-plain="1" placeholder="to-do에 맞춰 자유 서술 (또는 위에서 방법론 선택)">${s.plain||""}</textarea>`;
+  } else {
+    cont.innerHTML = s.sel.map(name=>{
+      const t = sub.th.find(x=>x[0]===name); const tpl=t[2];
+      if(tpl){
+        const fields = tpl.map((lab,i)=>`<div class="fwfield"><label>${lab}</label><input class="fw-in" type="text" data-key="${key}" data-th="${name}" data-lab="${lab}" value="${(s.vals[name]&&s.vals[name][lab]||"").replace(/"/g,'&quot;')}" placeholder="${lab}"></div>`).join("");
+        return `<div class="fwgroup"><div class="fwname">${name}</div>${fields}</div>`;
+      } else {
+        return `<div class="fwgroup"><div class="fwname">${name}</div><div class="fwfield"><textarea data-key="${key}" data-th="${name}" data-lab="_" placeholder="${name} 관점에서 서술">${(s.vals[name]&&s.vals[name]["_"])||""}</textarea></div></div>`;
+      }
+    }).join("");
+  }
+  cont.querySelectorAll("[data-key]").forEach(el=>{
+    el.addEventListener("input", e=>{
+      const d=e.target.dataset, v=e.target.value;
+      const st=subState(d.key);
+      if(d.plain){ st.plain=v.trim(); }
+      else { if(!st.vals[d.th]) st.vals[d.th]={}; st.vals[d.th][d.lab]=v.trim(); }
+      updateProgress();
+    });
+  });
+}
+
+/* ---------- serialize answers ---------- */
+function getAns(key){ // full string for brief/prompt
+  const s=subState(key);
+  if(!s.sel.length) return s.plain||"";
+  return s.sel.map(name=>{
+    const v=s.vals[name]||{}; const parts=Object.entries(v).filter(([,val])=>val).map(([lab,val])=>lab==="_"?val:`${lab}: ${val}`);
+    return parts.length? `〔${name}〕 ${parts.join(" / ")}` : "";
+  }).filter(Boolean).join("  ");
+}
+function getShort(key){ // short representative for preview
+  const s=subState(key);
+  if(s.plain) return s.plain;
+  for(const name of s.sel){ const v=s.vals[name]||{}; for(const val of Object.values(v)){ if(val) return val; } }
+  return "";
+}
+function subFilled(key){ const s=subState(key); if((s.plain||"").length>2) return true; return Object.values(s.vals).some(o=>Object.values(o).some(v=>v&&v.length>1)); }
+
+/* ---------- progress & gating ---------- */
+function updateProgress(){
+  const core=["a1_line","a3_basic","a3_desire","a3_fear"].every(subFilled);
+  const psychFilled = state.want.size+state.avoid.size+state.block.size>0;
+  const allKeys=Object.keys(SUBMAP);
+  const filled=allKeys.filter(subFilled).length;
+  const pg=["want","avoid","block","trust","trig"].filter(k=>state[k].size>0).length;
+  document.getElementById("prog").textContent=Math.round(((filled+pg)/(allKeys.length+5))*100)+"%";
+  const ready=core&&psychFilled;
+  document.getElementById("go-design").disabled=!ready;
+  document.getElementById("tab-b").classList.toggle("locked", !state.brandDone && !ready);
+}
+
+/* ---------- 토큰 엔진 ---------- */
+function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
+function computeTokens(){
+  const {want,avoid,block,trust,trig}=state, tw=state.tweak||{};
+  let hue=210,hueSrc="기본 청색(신뢰)";
+  for(const e of want){ if(HUE[e]!==undefined){hue=HUE[e];hueSrc=e;break;} }
+  let calm=avoid.has("불안")||avoid.has("압박감")||avoid.has("혼란")||want.has("안정감")||block.has("정보 과부하");
+  let sat=calm?46:64;
+  let accentHue=(want.has("성취감")||trig.has("보상")||trig.has("긴급성"))?28:38;
+  let base=(avoid.has("압박감")||avoid.has("혼란")||block.has("정보 과부하")||block.has("선택 피로"))?17:16;
+  let lh=(avoid.has("압박감")||block.has("정보 과부하"))?1.7:1.6;
+  let ratio=(want.has("전문성")||want.has("자부심"))?1.25:1.2;
+  let steps=block.has("정보 과부하")?3:4;
+  let airy=block.has("선택 피로")||block.has("정보 과부하")||want.has("안정감")||avoid.has("압박감");
+  let radius=calm?10:3, baseUnit=8;
+  let maxChoices=(block.has("선택 피로")||block.has("정보 과부하"))?3:5;
+  // 사용자 직접 조정(tweak) 우선
+  let tweaked=false;
+  const ap=(k,fn)=>{ if(tw[k]!=null){ fn(tw[k]); tweaked=true; } };
+  ap("hue",v=>{hue=v;hueSrc="직접 조정";}); ap("sat",v=>sat=v); ap("accentHue",v=>accentHue=v);
+  ap("base",v=>base=v); ap("lh",v=>lh=v); ap("ratio",v=>ratio=v); ap("steps",v=>steps=v);
+  ap("airy",v=>airy=v); ap("radius",v=>radius=v); ap("baseUnit",v=>baseUnit=v); ap("maxChoices",v=>maxChoices=v);
+  let radiusBtn = tw.radiusBtn!=null?(tweaked=true,tw.radiusBtn):radius;
+  let radiusField = tw.radiusField!=null?(tweaked=true,tw.radiusField):radius;
+  let gapMul=airy?1.5:1.0, density=airy?"여유 (×1.5)":"표준 "+baseUnit+"px";
+  let primary=hsl(hue,sat,30), accent=hsl(accentHue,82,55);
+  let lineHair=hsl(hue,10,90), lineBase=hsl(hue,12,80), lineStrong=hsl(hue,22,38);
+  return {primary,accent,hue,sat,hueSrc,base,lh,ratio,steps,baseUnit,gapMul,density,radius,radiusBtn,radiusField,maxChoices,calm,airy,tweaked,lineHair,lineBase,lineStrong};
+}
+
+/* ---------- 자동 제안 ---------- */
+function buildProposals(t){
+  const W=[...state.want].join(", ")||"미선택", A=[...state.avoid].join(", ")||"미선택", B=[...state.block].join(", ")||"미선택", Tr=[...state.trust].join(", ")||"미선택", G=[...state.trig].join(", ")||"미선택";
+  const ov=state.block.has("정보 과부하"), sf=state.block.has("선택 피로"), pa=state.avoid.has("압박감"), prof=state.want.has("전문성")||state.want.has("자부심"), ctrl=state.want.has("통제감"), goal=state.trig.has("목표 달성"), rew=state.trig.has("보상");
+  const gap=Math.round(t.baseUnit*2*t.gapMul), pad=Math.round(t.baseUnit*2.2*t.gapMul);
+  const PB=(...rows)=>rows; // brief 헬퍼
+  const items=[
+    // 1. 컬러 시스템
+    { g:"1. 컬러 시스템", cat:"코어 팔레트", val:`먹/Ink <code>#1F1D1D</code> · 주조 <code>${t.primary}</code>(${t.hueSrc}) · 액센트 <code>${t.accent}</code> — 역할 고정`,
+      th:["색채이론","60-30-10","전주의적 처리"], ref:`얻고 싶은 감정 "${W}" → hue ${t.hue}°`+(t.calm?" · 불안 회피 → 저채도":""),
+      brief:PB(["근거 (브랜드 기초설계)",`06 심리 — 얻고 싶은 감정 [${W}] · 피하고 싶은 감정 [${A}] · 방해요인 [${B}]`],
+        ["적용 이론·방법론","색채심리(청색=신뢰·안정·전문, 따뜻한 색=성취·친밀) + 각성이론(고채도·고대비는 각성을 높여 불안 유발) + 전주의적 처리(색은 0.2초 내 무의식 인지)"],
+        ["값 도출",`'${t.hueSrc}' 신호 → 주조색 hue ${t.hue}°(${t.calm?"청색 계열":"유채색"}), ${t.calm?`불안·압박 회피 → 채도 ${t.sat}%로 절제`:`주목·활기 → 채도 ${t.sat}%`}. 액센트는 10%로 한정.`],
+        ["사용자 작동 방식",`첫 화면 0.2초 안에 ${t.calm?"신뢰·안정":"활기"} 인상을 형성하고, 아껴 쓴 액센트가 시선을 CTA로 모은다.`]) },
+    { g:"1. 컬러 시스템", cat:"명도 스텝 (50–900)", val:`각 색 9단계 — 배경 50~100 · 보더 200~300 · 본문 700~900 · UI 상태/배경/보더용`,
+      th:["색채이론","시각적 위계"], ref:`주조 hue ${t.hue}° 기준 명도 파생`,
+      brief:PB(["적용 이론·방법론","색채이론(명도 단계로 한 색을 다목적 활용) + 시각적 위계"],["사용자 작동 방식","같은 색의 명도 차로 배경·보더·텍스트를 구분해, 색 수를 늘리지 않고도 위계를 만든다."]) },
+    { g:"1. 컬러 시스템", cat:"기능색 (브랜드와 분리)", val:`success/warning/error/info/disabled — 브랜드 팔레트(주조·액센트)와 톤을 띄워 <b>저채도·신호 전용</b> · 의미 1:1 고정`,
+      th:["기호학/어포던스","전주의적 처리"], ref:`브랜드 이미지 영향↓ · 기능 신호용`,
+      brief:PB(["적용 이론·방법론","기호학(색=의미 신호) + 전주의적 처리(0.2초 내 인지). 단, 채도를 낮춰 브랜드 색과 거리를 둔다"],["사용자 작동 방식","성공·경고·오류를 색만으로 직감하되, 저채도로 브랜드 인상(주조·액센트)을 흐리지 않는다."]) },
+    { g:"1. 컬러 시스템", cat:"표면·배경 단계", val:`캔버스 그레이 <code>${hsl(t.hue,t.calm?6:10,97)}</code> · 카드 화이트 · 패널 · 헤어라인 — 4단계 깊이`,
+      th:["게슈탈트(전경-배경)"], ref:`레이어 분리로 구조 지각`,
+      brief:PB(["적용 이론·방법론","게슈탈트 전경-배경 분리"],["사용자 작동 방식","표면 밝기 차로 '무엇이 만질 수 있는 카드인지'를 직관적으로 구분한다."]) },
+    { g:"1. 컬러 시스템", cat:"비율·접근성", val:`60(중립)–30(보조)–10(액센트) 분배 · 본문 대비 <code>WCAG AA 4.5:1</code> 통과`,
+      th:["60-30-10","접근성"], ref:`가독·주목 균형`,
+      brief:PB(["적용 이론·방법론","60-30-10 색 비율 + WCAG 대비 기준"],["사용자 작동 방식","액센트를 10%로 아껴 시선 유도를 보존하고, 대비 보장으로 누구나 읽을 수 있게 한다."]) },
+    // 2. 타이포그래피
+    { g:"2. 타이포그래피", cat:"서체 구성 (종류 가이드)", val:`국문 본문 = ${prof?"그로테스크/기하학적":"휴머니스트"} 산세리프 · 디스플레이 = 산세 · 라벨/숫자 = 모노 <span style="color:var(--mute)">(라이선스 자유 폰트, 사용 전 확인)</span>`,
+      th:["타이포 위계","기호학/어포던스"], ref:`전문성 등 인상 → 골격 선택`,
+      brief:PB(["적용 이론·방법론","타이포 위계·리듬 — 서체 종류가 인상을 결정. 특정 서체명 대신 종류로 가이드(라이선스)"],["사용자 작동 방식",`${prof?"균일한 산세로 전문·중립 인상":"부드러운 골격으로 친근·안정 인상"}을 즉시 전한다.`]) },
+    { g:"2. 타이포그래피", cat:"타입 스케일", val:`모듈러 비율 <code>${t.ratio}</code> · 단계 ${t.steps} · Display/H1~H4/Body/Caption/Mono라벨`,
+      th:["Cognitive Load","시각적 위계","타이포 위계","Miller"], ref:(ov?"정보 과부하 → 위계 3단계":"명확한 위계 대비")+(prof?" · 전문성 → 대비↑":""),
+      brief:PB(["근거 (브랜드 기초설계)",`06 심리 — 방해요인 [${B}] · 얻고 싶은 감정 [${W}]`],
+        ["적용 이론·방법론","인지부하 이론 + 모듈러 스케일 + Miller(단계 제한)"],
+        ["값 도출",`본문 ${t.base}px·행간 ${t.lh}, 스케일비 ${t.ratio}는 ${prof?"전문성 → 헤드 대비↑":"표준"}, 단계 ${t.steps}는 ${ov?"과부하 → 단순화":"명료"}.`],
+        ["사용자 작동 방식","크기 대비로 '무엇부터 볼지'를 즉시 알려 스캔만으로 핵심이 들어온다."]) },
+    { g:"2. 타이포그래피", cat:"행간·자간", val:`본문 행간 <code>${t.lh}</code> · 디스플레이 자간 -2% · 모노 라벨 +5% letter-spacing`,
+      th:["타이포 위계"], ref:(pa?"압박 회피 → 행간↑":"가독 리듬"),
+      brief:PB(["적용 이론·방법론","타이포 리듬 — 행간·자간이 읽기 호흡을 만든다"],["사용자 작동 방식","넉넉한 행간이 긴 글의 압박을 줄이고, 모노 라벨 자간이 기능 표시를 또렷하게 한다."]) },
+    { g:"2. 타이포그래피", cat:"국·영·숫자 혼용", val:`라벨/숫자 = 모노 영문 · 본문 = 국문 산스 — 역할 분리 고정`,
+      th:["CRAP 원칙"], ref:`반복으로 일관성`,
+      brief:PB(["적용 이론·방법론","CRAP(반복) — 같은 역할엔 같은 서체"],["사용자 작동 방식","서체만 봐도 '이건 데이터 라벨/이건 읽는 글'을 구분하게 한다."]) },
+    // 3. 그리드·스페이싱
+    { g:"3. 그리드·스페이싱", cat:"컬럼 그리드", val:`좌 사이드 250 / 캔버스 가변 / 우 패널 300 · 본문 12컬럼`,
+      th:["스위스 그리드"], ref:`수학적 질서 = 신뢰`,
+      brief:PB(["적용 이론·방법론","스위스 그리드 — 수학적 정렬이 질서·신뢰를 만든다"],["사용자 작동 방식","일관된 컬럼으로 화면이 정돈돼 보여 전문성·신뢰 인상을 준다."]) },
+    { g:"3. 그리드·스페이싱", cat:"베이스라인·모듈 그리드", val:`4px 베이스라인(텍스트 수직 리듬) · 캔버스 모듈 그리드(위젯 스냅 단위)`,
+      th:["스위스 그리드","게슈탈트(근접)"], ref:`정렬 리듬`,
+      brief:PB(["적용 이론·방법론","베이스라인 그리드 + 게슈탈트 근접"],["사용자 작동 방식","텍스트·요소가 보이지 않는 격자에 맞아 '깔끔하다'는 무의식적 안정감을 준다."]) },
+    { g:"3. 그리드·스페이싱", cat:"스페이싱 스케일", val:`<code>${t.baseUnit}px</code> 기반 4·8·12·16·24·32·48 토큰 · 밀도 <code>${t.density}</code>`,
+      th:["스위스 그리드","게슈탈트(근접)","네거티브 스페이스"], ref:(t.airy?"선택 피로·과부하 → 여백 ×1.5":"표준 밀도"),
+      brief:PB(["근거 (브랜드 기초설계)",`06 심리 — 방해요인 [${B}] · 얻고 싶은 감정 [${W}]`],
+        ["적용 이론·방법론","게슈탈트 근접 + 네거티브 스페이스(여백=주목·고급감)"],
+        ["값 도출",`${t.baseUnit}px 단위 토큰, 밀도 ${t.density}는 ${t.airy?"선택 피로·과부하·불안 → 여백 확대":"표준 유지"}.`],
+        ["사용자 작동 방식","여백이 관련 요소를 묶고 그룹을 분리해 화면을 '한눈에 파악 가능한 단위'로 만든다."]) },
+    { g:"3. 그리드·스페이싱", cat:"내부 패딩·gap·밀도 등급", val:`카드 패딩 <code>${pad}px</code> · 요소 gap <code>${Math.round(t.baseUnit*1.5*t.gapMul)}px</code> · compact/default 2등급`,
+      th:["게슈탈트(근접)"], ref:`정보량별 밀도`,
+      brief:PB(["적용 이론·방법론","게슈탈트 근접 — 내부 여백이 컴포넌트 단위를 만든다"],["사용자 작동 방식","정보가 많은 화면은 compact, 호흡이 필요한 곳은 default로 밀도를 조절한다."]) },
+    // 4. 형태·보더·그림자
+    { g:"4. 형태·보더·그림자", cat:"코너 반경 (카드·버튼·입력)", val:`카드 <code>${t.radius}px</code> · 버튼 <code>${t.radiusBtn}px</code> · 입력칸(텍스트 박스) <code>${t.radiusField}px</code> · 형태형(원/알약/블롭) 예외 <span style="color:var(--mute)">— 조정 패널에서 개별 설정</span>`,
+      th:["형태 대비","기호학/어포던스"], ref:(t.calm?"안정감 → 둥근 반경":"전문·테크 → 샤프 반경"),
+      brief:PB(["근거 (브랜드 기초설계)",`06 심리 — 피하고 싶은 감정 [${A}] · 얻고 싶은 감정 [${W}]`],
+        ["적용 이론·방법론","형태 대비 + 어포던스 — 인터랙티브 요소(버튼·입력)는 카드와 별도 R로 '만질 수 있음'을 강조"],
+        ["값 도출",`기본 ${t.calm?"안정감 → 둥근":"전문·테크 → 샤프"} 기조에서 카드 ${t.radius}/버튼 ${t.radiusBtn}/입력 ${t.radiusField}px. 조정 패널에서 개별 변경 가능.`],
+        ["사용자 작동 방식","버튼·입력칸 곡률을 따로 줘 '여기를 누르고/입력한다'는 어포던스를 카드와 구분해 전한다."]) },
+    { g:"4. 형태·보더·그림자", cat:"라인 위계 (구분선·박스 공용)", val:`L1 헤어라인 1px <code>ink-100~200</code> · L2 기본 1px <code>ink-300</code> · L3 강조 2px <code>${t.lineStrong}</code> — 구분선이자 박스 보더로 공용`,
+      th:["시각적 위계","게슈탈트(전경-배경)","기호학/어포던스"], ref:`정보 위계에 따라 선을 3단으로`,
+      brief:PB(["적용 이론·방법론","시각적 위계 + 게슈탈트(전경-배경) — 선의 굵기·명도로 구분 '강도'를 단계화. 어포던스(점선=빈칸)도 함께"],["사용자 작동 방식","약한 선은 미세 구분, 강한 선은 영역·강조 — 같은 '선'이라도 위계로 읽기 순서를 만든다. 구분선과 박스 보더에 동일 토큰을 공용한다."]) },
+    { g:"4. 형태·보더·그림자", cat:"그림자·엘리베이션", val:`오프셋 솔리드 그림자 4px 4px 0 (호버) · 3단 엘리베이션 — 캔버스<카드<오버레이`,
+      th:["형태 대비","기호학/어포던스"], ref:`깊이 위계`,
+      brief:PB(["적용 이론·방법론","엘리베이션 — 그림자 깊이가 레이어 순서를 표현"],["사용자 작동 방식","떠 있는 요소일수록 '지금 조작 중'임을 깊이로 알려 혼동을 줄인다."]) },
+    { g:"4. 형태·보더·그림자", cat:"형태 대비 규칙", val:`사각=정보 · 원=무드 · 알약=한 줄 · 블롭=컬러 — 형태↔의미 매핑`,
+      th:["형태 대비","기호학/어포던스"], ref:`직관 구분`,
+      brief:PB(["적용 이론·방법론","형태 대비 — 대/소·곡/직 대비로 리듬과 의미 구분"],["사용자 작동 방식","형태만 봐도 콘텐츠 종류를 알아 읽기 전에 분류가 된다."]) },
+    // 5. 컴포넌트·아이콘
+    { g:"5. 컴포넌트·아이콘", cat:"버튼 3종", val:`주(액센트 면) · 보조(outline) · 고스트(텍스트) · 상태 hover/active/disabled`,
+      th:["기호학/어포던스","피츠의 법칙"], ref:`행동 위계·도달성`,
+      brief:PB(["적용 이론·방법론","어포던스(면=클릭 신호) + 피츠(크고 가까운 주 버튼)"],["사용자 작동 방식","주/보조/고스트의 시각 무게로 '가장 중요한 행동'을 한눈에 알린다."]) },
+    { g:"5. 컴포넌트·아이콘", cat:"입력·배지·스텝", val:`입력 필드 · 배지(무료=green/DUMMY/완료) · 스텝 인디케이터 · 토스트`,
+      th:["전주의적 처리","폰 레스토프 효과"], ref:`상태 식별`,
+      brief:PB(["적용 이론·방법론","전주의적 처리 + 폰 레스토프(고립된 요소가 기억됨)"],["사용자 작동 방식","배지 색·스텝 위치로 현재 상태와 진행 위치를 즉시 파악한다."]) },
+    { g:"5. 컴포넌트·아이콘", cat:"아이콘 규격", val:`24px 그리드 · stroke 2px · 코너 통일 · 봇/UI 아이콘 세트`,
+      th:["CRAP 원칙","게슈탈트(유사)"], ref:`통일 지각`,
+      brief:PB(["적용 이론·방법론","CRAP 반복 + 게슈탈트 유사성 — 동일 규격이 한 세트로 보이게"],["사용자 작동 방식","스트로크·그리드 통일로 아이콘들이 '한 브랜드'로 묶여 신뢰를 준다."]) },
+    // 6. 정보구조·인터랙션·접근성
+    { g:"6. 정보구조·인터랙션·접근성", cat:"정보 구조·CTA", val:`한 화면 선택지 <code>${t.maxChoices}개</code> 이하 · 단일 주 CTA · 신뢰 요소(${Tr}) CTA 인접`,
+      th:["Hick's Law","Choice Overload","Cialdini","직렬 위치"], ref:(sf?"선택 피로 → 선택지 3개·기본값":"선택지 절제"),
+      brief:PB(["근거 (브랜드 기초설계)",`06 심리 — 방해요인 [${B}] · 신뢰 요소 [${Tr}] · 행동 계기 [${G}]`],
+        ["적용 이론·방법론","Hick's Law + Choice Overload(3~5개) + Cialdini(권위·사회적 증거) + 직렬 위치"],
+        ["값 도출",`선택지 ${t.maxChoices}개는 ${(sf||ov)?"선택 피로·과부하 → 축소·단일 CTA":"절제"}, 신뢰 요소를 CTA 인접 배치.`],
+        ["사용자 작동 방식","옵션을 줄여 결정 피로를 낮추고, 결정 직전 신뢰 근거로 망설임을 줄인다."]) },
+    { g:"6. 정보구조·인터랙션·접근성", cat:"모션 타이밍·이징", val:`duration 120~350ms · ease-out 진입 · 타이핑/채움 모션 0.4초 내`,
+      th:["도허티(400ms)","Peak-End","자이가르닉","Goal Gradient"], ref:(ctrl?"통제감 → 즉각 피드백":"표준")+(goal||rew?" · 목표/보상 → 진행바":""),
+      brief:PB(["근거 (브랜드 기초설계)",`06 심리 — 얻고 싶은 감정 [${W}] · 행동 계기 [${G}]`],
+        ["적용 이론·방법론","도허티 임계(0.4초 내=몰입) + Peak-End + 자이가르닉 + Goal Gradient"],
+        ["값 도출",`120~350ms, ${ctrl?"통제감 → 즉각 피드백·되돌리기":"표준 피드백"}${(goal||rew)?", 목표·보상 → 진행바·완료 강조":""}.`],
+        ["사용자 작동 방식","즉각 반응으로 통제감을 주고, 완료 순간 디자인으로 만족·공유 동력을 남긴다."]) },
+    { g:"6. 정보구조·인터랙션·접근성", cat:"z-index 레이어", val:`캔버스 < 위젯 < 패널 < 오버레이 < 모달 < 토스트 — 레이어 토큰화`,
+      th:["게슈탈트(전경-배경)"], ref:`레이어 질서`,
+      brief:PB(["적용 이론·방법론","전경-배경 — 깊이 순서를 토큰으로 고정"],["사용자 작동 방식","무엇이 위에 떠야 하는지 규칙화해 클릭이 엉키거나 가려지는 혼란을 막는다."]) },
+    { g:"6. 정보구조·인터랙션·접근성", cat:"상태 피드백", val:`hover / active / focus / disabled / loading 일관 규칙`,
+      th:["도허티(400ms)","자이가르닉"], ref:(ctrl?"통제감 → 즉각 반응":"표준 피드백"),
+      brief:PB(["적용 이론·방법론","도허티(즉각 반응) — 모든 상태에 시각 피드백"],["사용자 작동 방식","누를 때마다 반응이 보여 '먹통' 불안을 없애고 통제감을 준다."]) },
+    { g:"6. 정보구조·인터랙션·접근성", cat:"접근성", val:`대비 AA(4.5:1) · 터치 타겟 ≥44px · 포커스 링 · 키보드 내비`,
+      th:["피츠의 법칙","접근성"], ref:`모두를 위한 기본`,
+      brief:PB(["적용 이론·방법론","피츠(충분한 타겟 크기) + 접근성 표준(WCAG)"],["사용자 작동 방식","작은 화면·키보드·저시력 사용자도 막힘 없이 조작하게 한다."]) },
+    // 7. BI 코어·보이스
+    { g:"7. BI 코어·보이스", cat:"로고 시스템 방향", val:`심볼 + 워드마크 + 조합형 · 클리어스페이스/최소크기/배경별(라이트·다크·단색) 버전`,
+      th:["Brand Archetype","CRAP 원칙"], ref:(getShort("a2_manifesto")?`아키타입 반영`:"02 선언문 입력 시 반영"),
+      brief:PB(["적용 이론·방법론","Brand Archetype(인격) + CRAP(반복·정렬)"],["사용자 작동 방식","어디서 보든 같은 로고 규칙이 반복돼 브랜드를 빠르게 알아보게 한다."]) },
+    { g:"7. BI 코어·보이스", cat:"브랜드 보이스·태그라인", val:`철학·아키타입 기반 톤 — ${getShort("a2_manifesto")?`"${getShort("a2_manifesto").slice(0,40)}…"`:"선언문 입력 시 자동 반영"}`,
+      th:["Brand Archetype","CRAP 원칙"], ref:(getShort("a2_believe")?`믿음: "${getShort("a2_believe").slice(0,32)}…"`:"02 브랜드 철학 반영"),
+      brief:PB(["근거 (브랜드 기초설계)","02 브랜드 철학 — 믿는 것 / 선언문(아키타입)"],
+        ["적용 이론·방법론","Brand Archetype(12원형 인격으로 톤 일관) + CRAP"],
+        ["값 도출","선언문·아키타입에서 보이스를 도출, 카피·UI 문구를 한 인격으로 통일."],
+        ["사용자 작동 방식","모든 접점에서 같은 인격이 반복돼 일관성(=신뢰의 누적 증거)과 기억을 강화한다."]) },
+  ];
+  PROPS=items;
+  let lastG=null;
+  document.getElementById("proposals").innerHTML=items.map((p,i)=>{
+    const head = p.g!==lastG ? `<div class="pgroup">${p.g}</div>` : ""; lastG=p.g;
+    return head + `<div class="prop">
+    <div class="pn">${p.cat}</div>
+    <div class="pv">${p.val}</div>
+    <div class="ptheory">적용 이론 ${p.th.map((x,j)=>`<span class="tag" onclick="showTheory(${i},${j})">${x}</span>`).join("")} <span style="color:var(--mute)">· 클릭하면 설명</span></div>
+    <div class="tdesc" id="tdesc-${i}"></div>
+    <div class="preflect">${p.ref}</div>
+    <div class="acts"><span class="act brief" onclick="toggleBrief(${i})">ⓘ 도출 브리핑</span><span class="act chk" onclick="checkProp(${i})">✓ 점검</span><span class="act edit" onclick="toggleEdit(${i})">✎ 자연어 수정</span></div>
+    <div class="pbrief" id="pbrief-${i}">${(p.brief||[]).map(([l,txt])=>`<div class="pb-row"><span class="pb-l">${l}</span><span class="pb-t">${txt}</span></div>`).join("")}</div>
+    <div class="editbox" id="edit-${i}"><textarea id="edit-in-${i}" placeholder="이 제안을 어떻게 바꿀지 자연어로 — 예: 주조색을 더 따뜻하게, 카드 간격을 더 넓게, 모서리를 더 둥글게"></textarea><button class="addbtn" style="margin-top:5px" onclick="copyEditPrompt(${i})">수정 요청 프롬프트 복사</button></div>
+  </div>`;
+  }).join("");
+  return items;
+}
+function stripTags(s){ return (s||"").replace(/<[^>]+>/g,""); }
+function brandSummary(){
+  const keys=["a1_line","a3_basic","a3_desire","a3_fear","a2_manifesto"];
+  const b=keys.map(k=>getAns(k)?`${SUBMAP[k].name}: ${getAns(k)}`:null).filter(Boolean).join(" / ");
+  const ps=`감정 얻기[${[...state.want].join(",")||"-"}] · 피하기[${[...state.avoid].join(",")||"-"}] · 방해[${[...state.block].join(",")||"-"}] · 신뢰[${[...state.trust].join(",")||"-"}] · 계기[${[...state.trig].join(",")||"-"}]`;
+  return (b||"(브랜드 입력 적음)")+"\n심리: "+ps;
+}
+function showTheory(i,j){
+  const name=PROPS[i].th[j], el=document.getElementById("tdesc-"+i);
+  const html=`<b>${name}</b> — ${THEORY_DESC[name]||"(설명 준비 중)"}`;
+  if(el.classList.contains("open") && el.dataset.cur===name){ el.classList.remove("open"); return; }
+  el.innerHTML=html; el.dataset.cur=name; el.classList.add("open");
+}
+function checkProp(i){
+  const p=PROPS[i];
+  const prompt=`# 디자인 제안 점검 요청 — ${p.cat}\n\n브랜드 기초설계를 근거로 자동 도출된 디자인 제안입니다. 확신이 서지 않아 점검을 받고 싶습니다.\n\n## 브랜드 맥락\n${brandSummary()}\n\n## 현재 제안 (${p.cat})\n- 값: ${stripTags(p.val)}\n- 적용 이론: ${p.th.join(", ")}\n- 반영: ${stripTags(p.ref)}\n\n다음을 한국어로 (한쪽으로 단정하지 말고 양면 모두):\n1. 긍정적인 면 — 이 제안의 강점을 이론·브랜드 맥락 근거와 함께\n2. 부정적인 면 — 약점·리스크·놓친 지점을 근거와 함께\n3. 정제안 2가지:\n   - 1안 (긍정 중심): 강점을 더 살린 방향\n   - 2안 (부정 중심): 약점을 보완한 방향\n각 안은 구체 수치로, 적용 이론을 함께 밝혀 주세요. 최종 선택은 내가 합니다.`;
+  navigator.clipboard.writeText(prompt).then(()=>alert(`"${p.cat}" 점검 프롬프트를 복사했습니다.\nClaude(brand-design-guide)에 붙여넣으세요.`));
+}
+function toggleBrief(i){ document.getElementById("pbrief-"+i).classList.toggle("open"); }
+function toggleEdit(i){ document.getElementById("edit-"+i).classList.toggle("open"); }
+function copyEditPrompt(i){
+  const p=PROPS[i], req=(document.getElementById("edit-in-"+i).value||"").trim();
+  if(!req){ alert("어떻게 수정할지 자연어로 적어 주세요."); return; }
+  const prompt=`# 디자인 제안 수정 요청 — ${p.cat}\n\n## 브랜드 맥락\n${brandSummary()}\n\n## 현재 제안 (${p.cat})\n- 값: ${stripTags(p.val)}\n- 적용 이론: ${p.th.join(", ")}\n- 반영: ${stripTags(p.ref)}\n\n## 내 수정 요청 (자연어)\n"${req}"\n\n위 수정 요청을 반영해 이 제안을 다시 작성해 주세요. 변경 후에도 ① 구체 값(수치) ② 적용 이론 ③ 브랜드 입력과의 연결을 함께 제시하고, 브랜드 맥락·이론과 충돌하면 그 점도 알려 주세요. 한국어.`;
+  navigator.clipboard.writeText(prompt).then(()=>alert(`"${p.cat}" 수정 요청 프롬프트를 복사했습니다.\nClaude(brand-design-guide)에 붙여넣으세요.`));
+}
+
+function renderPreview(t){
+  const rad=t.radius, radB=t.radiusBtn, radF=t.radiusField, gap=Math.round(t.baseUnit*2*t.gapMul), pad=Math.round(t.baseUnit*2.2*t.gapMul);
+  const inkSteps=[["50",94],["100",88],["200",80],["300",68],["500",48],["700",34],["900",22]].map(([n,l])=>[n,hsl(t.hue,Math.max(8,t.sat-28),l)]);
+  const brandSw=[["primary",t.primary],["accent",t.accent]];
+  const fn=[["success",hsl(150,26,42)],["warning",hsl(40,52,52)],["error",hsl(8,50,52)],["info",hsl(t.hue,18,52)],["disabled",hsl(t.hue,6,74)]];
+  const line=getShort("a1_line")||"한 문장으로 정의된 핵심 가치", value=getShort("a1_value")||"브랜드 한 줄 정의가 여기에 반영됩니다.", basic=getShort("a3_basic");
+  const tl={"숫자":"4.9/5.0","사례":"1,200 사례","전문가":"전문가 검수","후기":"후기 980+","브랜드 철학":"우리의 약속","프로세스 투명성":"전 과정 공개"};
+  const trust=[...state.trust].slice(0,4).map(x=>tl[x]||x);
+  const feats=["핵심 선택지만 노출","근거와 함께 제안","언제든 되돌리기","다음 단계가 명확","숨은 비용 없음"].slice(0,t.maxChoices);
+  let cta="시작하기"; if(state.trig.has("긴급성"))cta="지금 시작하기"; else if(state.trig.has("보상"))cta="혜택 받기"; else if(state.trig.has("목표 달성"))cta="내 결과 보기";
+  const sizes=[["Display",t.base*Math.pow(t.ratio,3)],["H1",t.base*Math.pow(t.ratio,2)],["H2",t.base*t.ratio],["Body",t.base],["Caption",t.base/t.ratio]].slice(0, t.steps>=4?5:4);
+  const mute=hsl(t.hue,6,45), border=hsl(t.hue,10,90), softc=hsl(t.hue,t.calm?8:12,96);
+  const lineRow=(lab,w,c)=>`<div class="pv-line"><span>${lab}</span><hr style="border:none;border-top:${w}px solid ${c}"></div>`;
+  const lineBox=(lab,w,c,em)=>`<div style="flex:1;border:${w}px solid ${c};border-radius:${radF}px;padding:9px;font-size:11px;color:${em?t.primary:mute};font-weight:${em?700:400}">${lab}</div>`;
+  const html=`
+  <div class="pv-sec"><div class="pv-t">브랜드 컬러 — 명도 스텝 · 주조 · 액센트</div><div class="pv-sw">${inkSteps.map(([n,c])=>`<div class="pv-c"><span style="background:${c}"></span><i>${n}</i></div>`).join("")}</div><div class="pv-sw" style="margin-top:8px">${brandSw.map(([n,c])=>`<div class="pv-c"><span style="background:${c}"></span><i>${n}</i></div>`).join("")}</div></div>
+  <div class="pv-fn"><div class="pv-t">기능색 — 브랜드와 분리 <span class="pv-note">이미지 영향↓ · 기능 신호 전용</span></div><div class="pv-sw">${fn.map(([n,c])=>`<div class="pv-c"><span style="background:${c}"></span><i>${n}</i></div>`).join("")}</div></div>
+  <div class="pv-sec"><div class="pv-t">타입 스케일 (비율 ${t.ratio} · 본문 ${t.base}px/행간 ${t.lh})</div>${sizes.map(([n,s])=>`<div class="pv-type" style="font-size:${Math.min(s,30).toFixed(0)}px;font-weight:${(n==='Display'||n==='H1')?700:500}">${n} <span style="color:#aaa;font-size:11px">${s.toFixed(0)}px</span></div>`).join("")}</div>
+  <div class="pv-sec"><div class="pv-t">라인 위계 (구분선 · 박스 보더 공용)</div>
+    ${lineRow("L1 헤어라인",1,t.lineHair)}${lineRow("L2 기본",1,t.lineBase)}${lineRow("L3 강조",2,t.lineStrong)}
+    <div style="display:flex;gap:8px;margin-top:9px">${lineBox("박스 L1",1,t.lineHair)}${lineBox("박스 L2",1,t.lineBase)}${lineBox("박스 L3",2,t.lineStrong,true)}</div>
+  </div>
+  <div class="pv-sec"><div class="pv-t">컴포넌트 (버튼 R ${radB}px · 입력 R ${radF}px)</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:11px">
+      <button class="pv-btn" style="background:${t.accent};color:#fff;border:none;border-radius:${radB}px;font-size:${t.base}px">주 버튼</button>
+      <button class="pv-btn" style="background:#fff;color:${t.primary};border:1.5px solid ${t.primary};border-radius:${radB}px;font-size:${t.base}px">보조</button>
+      <button class="pv-btn" style="background:transparent;color:${t.primary};border:none;font-size:${t.base}px">고스트</button>
+      <span class="pv-badge" style="background:hsl(150 26% 92%);color:hsl(150 26% 30%)">무료</span>
+      <span class="pv-badge" style="background:${softc};color:${t.primary}">DUMMY</span>
+      <span class="pv-badge" style="background:${t.accent};color:#fff">완료</span>
+    </div>
+    <input class="pv-input" placeholder="텍스트 박스 — 반경 ${radF}px" style="border-radius:${radF}px">
+    <div class="pv-steps">${[1,2,3].map(n=>`<span style="background:${n===1?t.accent:softc};color:${n===1?'#fff':t.primary}">${n}</span>`).join("<i></i>")}</div>
+  </div>
+  <div class="pv-sec"><div class="pv-t">샘플 카드</div>
+    <div style="border-radius:${rad+2}px;padding:${pad}px;background:#fff;border:1px solid ${t.lineBase}">
+      <div style="font-family:'Space Mono',monospace;color:${t.accent};font-size:${(t.base*0.7).toFixed(0)}px;letter-spacing:.1em">${(basic?"FOR "+basic.slice(0,16):"YOUR BRAND").toUpperCase()}</div>
+      <div style="font-size:${(t.base*t.ratio*t.ratio).toFixed(0)}px;font-weight:700;line-height:1.15;margin:${Math.round(gap*0.4)}px 0;letter-spacing:-.02em">${line.slice(0,40)}</div>
+      <div style="color:${mute};font-size:${t.base}px;margin-bottom:${gap}px;line-height:${t.lh}">${value.slice(0,72)}</div>
+      ${trust.length?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:${gap}px">${trust.map(x=>`<span class="pv-badge" style="background:${softc};color:${t.primary}">${x}</span>`).join("")}</div>`:""}
+      <button class="pv-btn" style="background:${t.accent};color:#fff;border:none;border-radius:${radB}px;font-size:${t.base}px">${cta}</button>
+      <ul style="list-style:none;margin-top:${gap}px;display:grid;gap:${Math.round(gap*0.5)}px">${feats.map(f=>`<li style="font-size:${(t.base*0.9).toFixed(0)}px;padding-left:18px;position:relative;line-height:${t.lh}"><span style="position:absolute;left:0;color:${t.primary};font-weight:700">›</span>${f}</li>`).join("")}</ul>
+    </div>
+  </div>
+  <div class="reflect-note">${[`주조색 <span class="src">${t.hueSrc}</span>`, t.calm?"저채도·여백↑(불안 회피)":"활기·주목", `선택지 ${t.maxChoices}개(<span class="src">Hick</span>)`, state.trust.size?"신뢰배지 CTA 위(<span class='src'>Cialdini</span>)":""].filter(Boolean).join(" · ")} · 본문 ${t.base}px/${t.lh} · 반경 카드 ${t.radius}/버튼 ${radB}/입력 ${radF}px${t.tweaked?' · <b style="color:var(--orange)">직접 조정됨</b>':''}.</div>`;
+  document.getElementById("preview-body").innerHTML=html;
+  syncAdjust(t);
+}
+function syncAdjust(t){
+  const S=(id,v)=>{ const e=document.getElementById(id); if(e && document.activeElement!==e) e.value=v; };
+  S("adj-hue",t.hue); S("adj-sat",t.sat); S("adj-accentHue",t.accentHue); S("adj-radius",t.radius); S("adj-radiusBtn",t.radiusBtn); S("adj-radiusField",t.radiusField);
+  S("adj-base",t.base); S("adj-ratio",t.ratio); S("adj-baseUnit",t.baseUnit); S("adj-lh",t.lh); S("adj-airy",t.airy?"1":"0"); S("adj-maxChoices",t.maxChoices);
+  const O=(id,v)=>{ const e=document.getElementById(id); if(e) e.textContent=v; };
+  O("o-hue",t.hue+"°"); O("o-sat",t.sat+"%"); O("o-acc",t.accentHue+"°"); O("o-rad",t.radius+"px"); O("o-radbtn",t.radiusBtn+"px"); O("o-radfield",t.radiusField+"px");
+}
+function setTweak(k,v){ state.tweak[k]=v; refreshDesign(); }
+function resetTweak(){ state.tweak={}; refreshDesign(); }
+function refreshDesign(){ const t=computeTokens(); buildProposals(t); renderPreview(t); }
+
+function goStage(s){
+  if(s==='b' && document.getElementById("tab-b").classList.contains("locked")){ alert("먼저 브랜드 기초 설계를 마무리해 주세요.\n핵심 항목(서비스 한 줄·고객·욕망·두려움)과 06 심리 상태를 채우면 디자인 단계가 열립니다."); return; }
+  document.getElementById("stage-a").classList.toggle("active",s==='a');
+  document.getElementById("stage-b").classList.toggle("active",s==='b');
+  document.getElementById("tab-a").classList.toggle("active",s==='a');
+  document.getElementById("tab-b").classList.toggle("active",s==='b');
+  if(s==='b') refreshDesign();
+}
+function completeBrand(){ state.brandDone=true; document.getElementById("tab-b").classList.remove("locked"); goStage('b'); }
+
+function checkSub(key){
+  const sub=SUBMAP[key], ans=getAns(key);
+  if(!ans){ alert("먼저 이 항목에 입력을 작성한 뒤 점검하세요."); return; }
+  const used=subState(key).sel.join(", ")||"자유 서술";
+  const p=`# 입력 점검 요청 — ${sub.name}\n\n아래는 브랜드 기초설계 "${sub.name}" 항목에 대한 내 입력입니다. 확신이 서지 않아 점검을 받고 싶습니다.\n\n- to-do: ${sub.todo}\n- 적용 방법론: ${used}\n- 내 입력:\n"""\n${ans}\n"""\n\n다음을 한국어로 해주세요 (한쪽으로 단정하지 말고 양면을 모두):\n1. 긍정적인 면 — 이 입력의 강점을 근거와 함께\n2. 부정적인 면 — 약점·리스크·놓친 지점을 근거와 함께\n3. 위 양면을 바탕으로 정제안 2가지 제안:\n   - 1안 (긍정 중심): 강점을 더 살린 방향으로 다듬은 안\n   - 2안 (부정 중심): 약점을 보완·방어한 방향으로 다듬은 안\n\n최종 선택은 내가 합니다. 한쪽을 강요하지 마세요.`;
+  navigator.clipboard.writeText(p).then(()=>alert(`"${sub.name}" 점검 프롬프트를 복사했습니다.\nClaude(brand-design-guide)에 붙여넣으면 긍정·부정 검토 + 1안/2안 정제안을 받습니다.`));
+}
+function copyDesignPrompt(){
+  const t=computeTokens();
+  const brand=Object.keys(SUBMAP).map(k=>getAns(k)?`- ${SUBMAP[k].name}: ${getAns(k)}`:null).filter(Boolean).join("\n");
+  const psych=`- 얻고 싶은 감정: ${[...state.want].join(", ")||"-"}\n- 피하고 싶은 감정: ${[...state.avoid].join(", ")||"-"}\n- 방해요인: ${[...state.block].join(", ")||"-"}\n- 신뢰 요소: ${[...state.trust].join(", ")||"-"}\n- 행동 계기: ${[...state.trig].join(", ")||"-"}`;
+  const seed=`주조색 ${t.primary}(${t.hueSrc})·액센트 ${t.accent}, 본문 ${t.base}px/${t.lh}, 스케일비 ${t.ratio}, 간격 ${t.baseUnit}px·${t.density}, 반경 ${t.radius}px, 한 화면 선택지 ${t.maxChoices}개.`;
+  const p=`# 디자인 기초설계 도출 요청 (brand-design-guide)\n\n다음 브랜드 기초설계(BIBX, 방법론별 입력 포함)를 근거로 디자인 설계 제안을 도출하세요. 모든 제안에 ① 값 ② 적용 이론 ③ 반영된 브랜드 입력을 붙이세요.\n\n## 브랜드 기초설계\n${brand||"(미입력)"}\n\n## 심리 상태 (06)\n${psych}\n\n## 초기 토큰\n${seed}\n\n## 산출\n컬러·타이포/위계·그리드/스페이싱·형태·정보구조/CTA·인터랙션/모션·BI/보이스. 마지막에 상충 룰 우선순위·절충안. 한국어.`;
+  navigator.clipboard.writeText(p).then(()=>alert("프롬프트 복사 완료. Claude(brand-design-guide)에 붙여넣으세요."));
+}
+
+/* ---------- PDF 브리프 ---------- */
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function printBrief(kind){
+  const d=new Date(), stamp=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  let html="";
+  if(kind==='brand'){
+    html+=`<h1>브랜드 기초설계 브리프</h1><div class="meta">${stamp} · BIBX Foundation 기반 · Meetingroom</div>`;
+    BIBX.forEach(sec=>{ html+=`<h2>${sec.no}. ${sec.title}</h2>`;
+      sec.subs.forEach(s=>{ const v=getAns(s.key); const used=subState(s.key).sel.join(", ")||"자유 서술";
+        html+=`<div class="bsub">${s.name}</div><div class="bans ${v?"":"empty"}">${v?esc(v):"(미입력)"}</div><div class="bth">방법론: ${used} · 참고: ${s.th.map(x=>x[0]).join(", ")}</div>`; }); });
+    html+=`<h2>06. UX 심리 상태</h2>`;
+    Object.entries(PSYCH).forEach(([k,p])=>{ html+=`<div class="bsub">${p.label}</div><div class="bans ${state[k].size?"":"empty"}">${state[k].size?[...state[k]].join(", "):"(미선택)"}</div>`; });
+  } else {
+    const t=computeTokens(), items=buildProposals(t);
+    html+=`<h1>디자인 설계 브리프 — 에셋·레이아웃 룰</h1><div class="meta">${stamp} · 브랜드 기초설계 기반 자동 도출 · Meetingroom</div>`;
+    html+=`<h2>토큰 요약</h2><div class="bans">주조색 ${t.primary} (${t.hueSrc}) · 액센트 ${t.accent} · 본문 ${t.base}px/행간 ${t.lh} · 스케일비 ${t.ratio} · 간격 ${t.baseUnit}px(${t.density}) · 반경 ${t.radius}px · 선택지 ${t.maxChoices}개</div>`;
+    html+=`<h2>설계 제안</h2>`;
+    let lg=null;
+    items.forEach(p=>{ if(p.g!==lg){ html+=`<div class="bsub" style="color:var(--navy);border-bottom:1px solid var(--line);padding-bottom:3px">${p.g}</div>`; lg=p.g; }
+      html+=`<div class="bsub">· ${p.cat}</div><div class="bans">${stripTags(p.val)}</div><div class="bth">적용 이론: ${p.th.join(", ")} · ${stripTags(p.ref)}</div>`;
+      (p.brief||[]).forEach(([l,txt])=>{ html+=`<div class="bans" style="margin-left:6px;color:#444"><b>${l}:</b> ${stripTags(txt)}</div>`; }); });
+  }
+  document.getElementById("brief-content").innerHTML=html;
+  document.body.classList.add("printing"); window.print();
+}
+window.onafterprint=()=>document.body.classList.remove("printing");
+
+renderBibx(); updateProgress();
+</script>
+</body>
+</html>
