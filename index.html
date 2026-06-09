@@ -181,6 +181,80 @@
   .reflect-note .src { color: var(--navy); font-weight: 600; }
   .b-actions { display:flex; gap:8px; margin-bottom:14px; flex-wrap: wrap; }
 
+  /* 다음 단계 선택 (STAGE A → 디자인/카피) */
+  .next-choice { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+  .next-choice .nc-title { font-size: 13.5px; color: var(--mute); margin-bottom: 10px; }
+  .next-choice .nc-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  /* STAGE C 카피라이팅 */
+  .radio-grid-c { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .radio-grid-c label { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font-size: 14px; cursor: pointer; background:#fafafa; }
+  .radio-grid-c label:hover { border-color: var(--navy); }
+  .radio-grid-c label:has(input:checked) { background: var(--ink); color:#fff; border-color: var(--ink); }
+  .radio-grid-c input, .chips-pf input { position:absolute; opacity:0; width:0; height:0; }
+  .cfield { margin-bottom: 12px; } .cfield:last-child { margin-bottom: 0; }
+  .cfield label.cl { display:block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .cfield textarea, .cfield input[type=text], .cfield select { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-family:inherit; font-size:14px; background:#fafafa; resize:vertical; }
+  .cfield textarea { min-height:54px; }
+  .cfield textarea:focus, .cfield input:focus, .cfield select:focus { outline:none; border-color:var(--orange); background:#fff; }
+  .cgrid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px 12px; }
+  .c-cbox { display:flex; gap:8px; align-items:flex-start; font-size:13.5px; font-weight:700; cursor:pointer; }
+  .c-cbox input { margin-top:3px; accent-color:var(--navy); }
+  .chips-pf { display:flex; flex-wrap:wrap; gap:6px; }
+  .chips-pf label { display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; padding:6px 13px; font-size:12.5px; cursor:pointer; background:#fafafa; }
+  .chips-pf label:hover { border-color:var(--navy); }
+  .chips-pf label:has(input:checked) { background:var(--navy); color:#fff; border-color:var(--navy); }
+  .c-mode { display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; margin:4px 0 10px; }
+  .c-mode button { flex:1; padding:9px; border:none; background:#fafafa; font-family:inherit; font-size:12.5px; font-weight:700; cursor:pointer; color:var(--mute); }
+  .c-mode button.active { background:var(--navy); color:#fff; }
+  .c-prompt { background:var(--code); border:1px solid var(--line); border-radius:8px; padding:14px; font-family:"Space Mono","SF Mono",ui-monospace,monospace; font-size:12px; line-height:1.6; white-space:pre-wrap; word-break:break-word; max-height:62vh; overflow-y:auto; }
+  .c-prompt.empty { color:#aaa; font-style:italic; }
+  .c-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .c-copybtn { border:1px solid var(--navy); background:var(--navy); color:#fff; border-radius:8px; padding:7px 14px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .c-copybtn:hover { opacity:.9; }
+  .c-copybtn.copied { background:var(--ok); border-color:var(--ok); }
+  .cfield textarea.cq { min-height:46px; overflow:hidden; }
+  /* ── 2단계 항목 위계 (카피·페르소나 공용): 제목 → 설명(이론·베네핏) → 작성칸 → 이론 자세히 ── */
+  .pf-title { font-size:14px; font-weight:700; color:var(--ink); letter-spacing:-.01em; }
+  .pf-why { font-size:12px; color:var(--mute); line-height:1.55; margin:3px 0 9px; padding-left:9px; border-left:2px solid #efc6a8; }
+  .pf-why .pf-th { color:var(--navy); font-weight:700; }
+  .pf-more-wrap { margin-top:9px; }
+  .pf-more { display:inline-block; font-size:11px; font-weight:700; color:#fff; background:var(--navy); border-radius:6px; padding:4px 11px; cursor:pointer; user-select:none; }
+  .pf-more::after { content:" ▾"; font-size:8px; opacity:.8; }
+  .pf-more:hover { background:#00293f; }
+  .pf-more-wrap.open .pf-more::after { content:" ▴"; }
+  .pf-detail { display:none; font-size:12px; color:#e9e7e3; line-height:1.65; background:#2c2a28; border-radius:8px; padding:12px 14px; margin-top:8px; }
+  .pf-detail::before { content:"이론 상세"; display:block; font-family:"Space Mono","SF Mono",ui-monospace,monospace; font-size:9px; font-weight:700; color:var(--orange); letter-spacing:.1em; margin-bottom:6px; }
+  .pf-more-wrap.open .pf-detail { display:block; }
+  .ptitle { flex:1; font-size:13px; font-weight:700; color:var(--mute); }
+  /* 페르소나 */
+  .pcard { background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:14px; }
+  .pcard.pri1 { border-color:var(--orange); }
+  .phead { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .pbadge { font-size:11px; font-weight:800; color:#fff; background:var(--orange); border-radius:999px; padding:3px 10px; white-space:nowrap; }
+  .pbadge.np { background:var(--navy); }
+  .phead .palias { flex:1; font-weight:700; font-size:14px; border:none; border-bottom:1px solid var(--line); background:transparent; padding:3px 2px; font-family:inherit; }
+  .phead .palias:focus { outline:none; border-bottom-color:var(--orange); }
+  .pctrl { display:flex; gap:4px; }
+  .pctrl button { border:1px solid var(--line); background:#fafafa; border-radius:6px; width:26px; height:26px; cursor:pointer; font-size:12px; color:var(--mute); }
+  .pctrl button:hover { border-color:var(--navy); color:var(--navy); }
+  .pctrl button.del:hover { border-color:#b3261e; color:#b3261e; }
+  .pf { padding:14px 0 22px; } .pf:not(:last-child) { border-bottom:1px dashed var(--line); }
+  .pf textarea { width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-family:inherit; font-size:13.5px; line-height:1.55; background:#fcfbfa; resize:vertical; min-height:40px; overflow:hidden; }
+  .pf textarea:focus { outline:none; border-color:var(--orange); background:#fff; box-shadow:0 0 0 3px rgba(240,132,74,.12); }
+  #add-persona-btn { width:100%; border:1px dashed var(--line); background:#fafafa; border-radius:10px; padding:12px; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer; color:var(--navy); }
+  #add-persona-btn:hover { border-color:var(--navy); background:#f1f6f9; }
+  #add-persona-btn:disabled { opacity:.45; cursor:not-allowed; }
+  /* 페르소나 미리보기 */
+  .pv-persona { border:1px solid var(--line); border-left:3px solid var(--orange); border-radius:0 10px 10px 0; padding:13px 15px; margin-bottom:12px; }
+  .pv-persona.np { border-left-color:var(--navy); }
+  .pv-persona .pvp-h { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; }
+  .pv-persona .pvp-h .pri { font-size:11px; font-weight:800; color:var(--orange); }
+  .pv-persona .pvp-h .nm { font-size:15px; font-weight:700; }
+  .pv-persona .pvp-row { display:grid; grid-template-columns:88px 1fr; gap:8px; padding:4px 0; border-bottom:1px dashed var(--line); font-size:12.5px; line-height:1.5; }
+  .pv-persona .pvp-row:last-child { border-bottom:none; }
+  .pv-persona .pvp-row .l { font-weight:700; color:var(--navy); }
+  .pv-persona .pvp-row .v { color:#333; white-space:pre-wrap; } .pv-persona .pvp-row .v.empty { color:#bbb; font-style:italic; }
+
   #print-area { display: none; }
   .brief { max-width: 760px; margin: 0 auto; padding: 30px; }
   .brief h1 { font-size: 26px; margin-bottom: 4px; }
@@ -199,11 +273,13 @@
 <div class="topbar">
   <a class="demo-link" href="demo-meetingroom.html" target="_blank" rel="noopener">↗ 완성 예시 보기 (미팅룸 데모)</a>
   <div class="eyebrow">Meetingroom · Brand Design Guide</div>
-  <h1>브랜드 기초설계 → 디자인 기초설계 가이드</h1>
+  <h1>브랜드 기초설계 → 디자인 · 카피 가이드</h1>
   <div class="stagebar">
     <div class="st active" id="tab-a" onclick="goStage('a')"><span class="n">1</span> 브랜드 기초 설계</div>
     <span class="arr">→</span>
-    <div class="st locked" id="tab-b" onclick="goStage('b')"><span class="n">2</span> 디자인 기초 설계</div>
+    <div class="st locked" id="tab-b" onclick="goStage('b')"><span class="n">2</span> 디자인 설계</div>
+    <div class="st locked" id="tab-c" onclick="goStage('c')"><span class="n">2</span> 카피라이팅</div>
+    <div class="st locked" id="tab-d" onclick="goStage('d')"><span class="n">2</span> 페르소나</div>
     <div class="prog">브랜드 입력 <b id="prog">0%</b></div>
   </div>
 </div>
@@ -215,9 +291,16 @@
     <div class="sec" style="border-color:var(--orange);">
       <div class="stageA-foot">
         <button class="btn btn-navy" onclick="printBrief('brand')">⌘ 브랜드 기초설계 브리프 PDF</button>
-        <button class="btn btn-primary" id="go-design" disabled onclick="completeBrand()">브랜드 설계 완료 → 디자인 단계로 →</button>
       </div>
-      <div class="foot-note" style="margin-top:8px;">각 질문의 <b>ⓘ 방법론 선택</b>을 펼쳐 적용 방법론을 1개 또는 복수 선택하면 빈칸이 그 구조(예: 골든서클 → Why/How/What)로 바뀝니다. 선택 없이 자유 서술도 가능합니다. 각 항목 하단 <b>📖 방법론 설명</b>에서 각 방법론의 의미·도출 목표 해설을 확인할 수 있습니다.</div>
+      <div class="next-choice" id="next-choice">
+        <div class="nc-title">브랜드 기초설계를 마치면, <b>이 입력을 그대로 근거로</b> 디자인 설계·카피라이팅·페르소나를 진행할 수 있습니다. 무엇을 할지 선택하세요. 완료 후 상단 탭으로 자유롭게 오갈 수 있습니다. (핵심 항목 + 06 심리 입력 시 활성화)</div>
+        <div class="nc-btns">
+          <button class="btn btn-primary" id="go-design" disabled onclick="completeBrand('b')">🎨 디자인 설계 →</button>
+          <button class="btn btn-primary" id="go-copy" disabled onclick="completeBrand('c')">✍ 카피라이팅 →</button>
+          <button class="btn btn-primary" id="go-persona" disabled onclick="completeBrand('d')">👤 페르소나 →</button>
+        </div>
+      </div>
+      <div class="foot-note" style="margin-top:12px;">각 질문의 <b>ⓘ 방법론 선택</b>을 펼쳐 적용 방법론을 1개 또는 복수 선택하면 빈칸이 그 구조(예: 골든서클 → Why/How/What)로 바뀝니다. 선택 없이 자유 서술도 가능합니다. 각 항목 하단 <b>📖 방법론 설명</b>에서 각 방법론의 의미·도출 목표 해설을 확인할 수 있습니다.</div>
     </div>
   </div>
 </div>
@@ -260,6 +343,146 @@
         <h3>실시간 미리보기</h3>
         <div class="sub-h">현재 토큰이 적용된 디자인 시스템 예시. 위 '조정'으로 값을 바꾸면 즉시 반영됩니다.</div>
         <div id="preview-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE C 카피라이팅 -->
+<div class="stage" id="stage-c">
+  <div class="b-layout">
+    <div class="b-left">
+      <div class="card">
+        <h3>브랜드 기초설계 컨텍스트 — 자동 불러옴</h3>
+        <div class="sub-h">STAGE A 입력에서 카피의 <b>본질·타겟·메시지·톤</b>을 자동 도출했습니다. 그대로 쓰거나 카피용으로 다듬으세요. <span onclick="redriveCopy()" style="color:var(--orange);cursor:pointer;font-weight:700;">↺ 기초설계값으로 다시 채우기</span></div>
+        <div class="pf"><div class="pf-title">Q1. 본질 — 이 브랜드가 사라지면 무엇이 사라지나</div>
+          <div class="pf-why"><span class="pf-th">본질에서 출발 (박웅현式)</span> — 기능 나열이 아닌 '사라지면 아쉬운 것'에서 시작해 → 흔한 광고문구로 빠지지 않는 단단한 한 줄을 얻는다.</div>
+          <textarea id="cq1" class="cq" placeholder="STAGE A 서비스 정의·철학에서 자동 도출"></textarea>
+          <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">박웅현의 작법 핵심 — 카피는 제품 설명이 아니라 '본질의 발견'에서 나온다. '이 브랜드가 사라지면 무엇이 사라지나'를 물으면 기능 너머의 의미·관계·시간이 드러나고, 그 의미가 한 줄의 씨앗이 된다.</div></div></div>
+        <div class="pf"><div class="pf-title">Q2. 타겟·맥락 — 누가, 어떤 상황·마음으로 마주하나</div>
+          <div class="pf-why"><span class="pf-th">맥락·소비자 시점 (JTBD)</span> — 누가 어떤 마음으로 보는지 고정해 → 브랜드 자뻑을 막고 카피의 어조·각도가 정확히 꽂힌다.</div>
+          <textarea id="cq2" class="cq" placeholder="STAGE A 고객·여정에서 자동 도출"></textarea>
+          <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">수용자(타겟)가 어떤 맥락에서 카피를 만나는지에 따라 같은 말도 다르게 읽힌다. 카피는 발신자(브랜드)가 아니라 수신자(소비자) 시점에서 써야 '광고 같은' 자뻑을 피한다. 직전 행동·심리를 알면 어조와 진입점이 정해진다.</div></div></div>
+        <div class="pf"><div class="pf-title">Q3. 핵심 메시지 — 단 하나만 전한다면</div>
+          <div class="pf-why"><span class="pf-th">한 카피 한 메시지</span> — 전할 말을 하나로 좁혀 → 기억에 남고 행동으로 이어지는 카피가 된다.</div>
+          <textarea id="cq3" class="cq" placeholder="STAGE A 제공 가치·만들 변화에서 자동 도출"></textarea>
+          <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">한 카피 한 메시지 원칙 — 한 번에 두 가지를 말하면 둘 다 기억에 남지 않는다. 메시지를 하나로 좁히는 것은 '제거의 기술'이며, 좁힐수록 카피의 칼끝이 날카로워진다.</div></div></div>
+      </div>
+
+      <div class="card">
+        <h3>카피 유형 <span style="color:var(--orange);font-size:13px;font-weight:700">· 필수</span></h3>
+        <div class="pf-why"><span class="pf-th">유형별 작법 가중치 + 6원칙</span> — 유형을 먼저 정하면 적용할 원칙·호흡(응축·단언·음수율·제거 테스트 등)이 고정돼 → 결과물의 톤과 완성도가 일관된다.</div>
+        <div class="radio-grid-c" id="copy-type">
+          <label><input type="radio" name="ctype" value="A" data-name="브랜드 슬로건"><span>A. 브랜드 슬로건</span></label>
+          <label><input type="radio" name="ctype" value="B" data-name="캠페인 헤드라인"><span>B. 캠페인 헤드라인</span></label>
+          <label><input type="radio" name="ctype" value="C" data-name="제품 카피"><span>C. 제품 카피</span></label>
+          <label><input type="radio" name="ctype" value="D" data-name="바디카피"><span>D. 바디카피</span></label>
+          <label><input type="radio" name="ctype" value="E" data-name="SNS·숏폼"><span>E. SNS·숏폼</span></label>
+          <label><input type="radio" name="ctype" value="F" data-name="네이밍"><span>F. 네이밍</span></label>
+        </div>
+        <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">유형(슬로건·헤드라인·바디 등)마다 호흡·길이·기능이 다르고, 적용할 작법 원칙의 가중치도 달라진다. 작법 6원칙(본질 출발·추상의 구체화·단언·음성언어 검증/음수율·한 메시지·제거 테스트)은 모든 유형의 공통 검수 기준으로, 유형을 먼저 정하면 어떤 원칙을 더 강하게 적용할지가 정해진다.</div></div>
+      </div>
+
+      <div class="card" id="c-media-card">
+        <h3>매체·플랫폼</h3>
+        <div class="pf-why"><span class="pf-th">매체별 호흡·길이 기준</span> — 플랫폼 규격에 맞춘 글자수·구조로 출력돼 → 손보지 않고 바로 쓸 수 있는 카피가 나온다. <span style="color:#aaa">(네이밍 외 권장 · 매체 선택 시 세부 플랫폼 표시)</span></div>
+        <div class="cfield"><label class="cl">매체 카테고리 (택1)</label>
+          <div class="chips-pf" id="cmedia">
+            <label><input type="radio" name="cmedia" value="디지털 광고"><span>디지털 광고</span></label>
+            <label><input type="radio" name="cmedia" value="SNS 운영"><span>SNS 운영</span></label>
+            <label><input type="radio" name="cmedia" value="자사 채널"><span>자사 채널</span></label>
+            <label><input type="radio" name="cmedia" value="제안·세일즈 문서"><span>제안·세일즈 문서</span></label>
+            <label><input type="radio" name="cmedia" value="옥외·인쇄"><span>옥외·인쇄</span></label>
+            <label><input type="radio" name="cmedia" value="영상·방송"><span>영상·방송</span></label>
+            <label><input type="radio" name="cmedia" value="패키지·굿즈"><span>패키지·굿즈</span></label>
+          </div>
+        </div>
+        <div class="cfield" id="cplatform-field" style="display:none"><label class="cl">플랫폼 (해당하는 항목 모두)</label><div class="chips-pf" id="cplatform"></div></div>
+        <div class="cfield" id="cbody-field" style="display:none"><label class="c-cbox"><input type="checkbox" id="cbody" checked><span>본문(상세 카피)도 함께 작성 — 헤드 + 플랫폼별 본문(캡션·스크립트·자막)</span></label></div>
+        <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">같은 메시지도 매체에 따라 헤드 호흡·본문 길이·자막 컷 수가 달라진다(인스타 릴스 자막 vs 신문 헤드 vs 제안서 챕터). 플랫폼 규격을 기준으로 잡아야 '예쁘지만 안 맞는' 카피가 아니라, 그 자리에 바로 쓰는 카피가 나온다.</div></div>
+      </div>
+
+      <div class="card">
+        <h3>톤·제약</h3>
+        <div class="pf-why"><span class="pf-th">톤 일관성 + 표현 제약</span> — 06 심리·02 아키타입 기반 톤으로 모든 접점이 한 인격이 되고 → 금기·필수어가 어긋난 표현을 사전에 막는다. <span style="color:#aaa">(톤·금기어 자동 제안 · 수정 가능)</span></div>
+        <div class="cgrid2">
+          <div class="cfield"><label class="cl">톤 (택1)</label><select id="ctone"><option value="">자동/미지정</option><option value="단언">단언 — 끊어 단언</option><option value="공감">공감 — 대화체</option><option value="격언">격언 — 명사형 묵직</option><option value="구어">구어 — 일상어</option></select></div>
+          <div class="cfield"><label class="cl">글자 수 한계</label><input type="text" id="clength" placeholder="예: 12자 이내"></div>
+          <div class="cfield"><label class="cl">금기어</label><input type="text" id="cforbidden" placeholder="예: 최고, 혁신"></div>
+          <div class="cfield"><label class="cl">필수 포함어</label><input type="text" id="crequired" placeholder="예: 브랜드명"></div>
+        </div>
+        <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">톤은 브랜드 보이스의 일관성을 만든다 — 06 심리(얻고 싶은 감정)와 02 아키타입에서 도출하면 모든 접점이 한 인격으로 느껴진다. 글자수·금기어·필수어 같은 제약은 창작의 자유를 줄이는 게 아니라 방향을 좁혀 정밀도를 높이는 장치다.</div></div>
+      </div>
+
+      <div class="card">
+        <h3>선택 입력 <span style="color:var(--mute);font-size:13px;font-weight:400">· 있을 때 품질↑</span></h3>
+        <div class="cfield"><label class="cl">경쟁사 카피 3~5개</label><textarea id="ccomp" placeholder="줄바꿈으로 구분"></textarea></div>
+        <div class="cfield"><label class="cl">브랜드 보이스 샘플</label><textarea id="cvoice" placeholder="확정된 톤이 드러난 기존 문장"></textarea></div>
+        <div class="cfield"><label class="cl">레퍼런스 카피 (좋아하는 결)</label><textarea id="cref" placeholder="결이 비슷했으면 하는 카피"></textarea></div>
+        <div class="cfield"><label class="cl">피해야 할 방향</label><textarea id="cavoid" placeholder="탈락한 콘셉트·표현"></textarea></div>
+      </div>
+
+      <div class="card">
+        <h3>출력 옵션</h3>
+        <div class="cgrid2">
+          <div class="cfield"><label class="cl">안 개수</label><select id="ccount"><option value="3">3안 (기본)</option><option value="5">5안</option><option value="10">10안+ (발산)</option></select></div>
+          <div class="cfield"><label class="cl">다양성 축</label><select id="cdiv"><option value="각도">각도 다양 (기본)</option><option value="톤">톤 다양</option><option value="길이">길이 다양</option></select></div>
+          <div class="cfield"><label class="cl">외부 검색</label><select id="cweb"><option value="no">불필요 (기본)</option><option value="yes">필요 — 경쟁사·트렌드</option></select></div>
+        </div>
+      </div>
+
+      <div class="b-actions">
+        <button class="btn btn-navy" onclick="copyCopyPrompt()">📋 카피 프롬프트 복사</button>
+        <button class="btn btn-ghost" onclick="goStage('a')">← 브랜드 단계로</button>
+        <button class="btn btn-ghost" onclick="goStage('b')">디자인 설계로 →</button>
+      </div>
+    </div>
+
+    <div class="b-right">
+      <div class="card">
+        <div class="c-head">
+          <h3 style="margin:0">생성된 카피 프롬프트</h3>
+          <button class="c-copybtn" id="c-copybtn" onclick="copyCopyPrompt()">📋 복사</button>
+        </div>
+        <div class="sub-h">브랜드 기초설계 + 위 입력으로 자동 생성. 모드 선택 후 우측 상단 복사 버튼을 누르세요. <b>Claude 에이전트용</b>은 Claude Code 전용, <b>타 AI 공용</b>은 ChatGPT·Gemini 등 어떤 AI에도 붙여넣을 수 있습니다.</div>
+        <div class="c-mode">
+          <button id="cmode-cc" class="active" onclick="setCopyMode('cc')">Claude 에이전트용</button>
+          <button id="cmode-gen" onclick="setCopyMode('gen')">타 AI 공용 (ChatGPT·Gemini 등)</button>
+        </div>
+        <div class="c-prompt empty" id="copy-prompt">왼쪽에서 카피 유형을 고르면 프롬프트가 생성됩니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE D 페르소나 -->
+<div class="stage" id="stage-d">
+  <div class="b-layout">
+    <div class="b-left">
+      <div class="card">
+        <h3>페르소나 — 브랜드 기초설계 기반 자동 구축</h3>
+        <div class="sub-h">STAGE A의 고객·여정·심리에서 <b>1순위 페르소나</b>를 자동 도출했습니다. 각 항목을 수정·보완하고, 우선순위대로 <b>최대 5개</b>까지 추가하세요. 항목마다 <b>존재 이유(이론·방법론)</b>가 바로 아래에 표시됩니다. <span onclick="redrivePersona()" style="color:var(--orange);cursor:pointer;font-weight:700;">↺ 1순위 기초설계값으로 다시 채우기</span></div>
+      </div>
+      <div id="persona-list"></div>
+      <button id="add-persona-btn" onclick="addPersona()">+ 페르소나 추가 (우선순위 다음, 최대 5)</button>
+    </div>
+    <div class="b-right">
+      <div class="card">
+        <h3>정리된 페르소나 미리보기</h3>
+        <div class="sub-h">우선순위 순서대로 정리됩니다. 왼쪽 수정이 즉시 반영됩니다.</div>
+        <div id="persona-preview"></div>
+      </div>
+      <div class="card">
+        <div class="c-head">
+          <h3 style="margin:0">고객 여정 테스트 프롬프트</h3>
+          <button class="c-copybtn" id="p-copybtn" onclick="copyPersonaPrompt()">📋 복사</button>
+        </div>
+        <div class="sub-h">내가 만든 브랜드 전략을 이 페르소나 기준으로 <b>고객 여정(인식→탐색→신뢰→결정→실행→완료→재방문)</b>을 테스트합니다. 모드 선택 후 우측 상단 복사 버튼을 누르세요. <b>Claude 에이전트용</b>은 Claude Code 전용, <b>타 AI 공용</b>은 ChatGPT·Gemini 등에서도 사용 가능.</div>
+        <div class="c-mode">
+          <button id="pmode-cc" class="active" onclick="setPersonaMode('cc')">Claude 에이전트용</button>
+          <button id="pmode-gen" onclick="setPersonaMode('gen')">타 AI 공용 (ChatGPT·Gemini 등)</button>
+        </div>
+        <div class="c-prompt empty" id="persona-prompt">페르소나가 채워지면 여기에 여정 테스트 프롬프트가 생성됩니다.</div>
       </div>
     </div>
   </div>
@@ -526,7 +749,8 @@ const METHOD_DESC = {
 const SUBMAP = {};
 BIBX.forEach(s=>s.subs.forEach(x=>SUBMAP[x.key]=x));
 
-const state = { sub:{}, want:new Set(),avoid:new Set(),block:new Set(),trust:new Set(),trig:new Set(), brandDone:false, tweak:{} };
+const state = { sub:{}, want:new Set(),avoid:new Set(),block:new Set(),trust:new Set(),trig:new Set(), brandDone:false, tweak:{}, personas:[] };
+const DEV_UNLOCK = true; // ⚠️ 임시: 2단계 탭(디자인·카피·페르소나) 잠금 해제 — 구성 확인용. 정식 배포 전 false 로 되돌릴 것.
 let PROPS = [];
 function subState(key){ if(!state.sub[key]) state.sub[key]={sel:[],vals:{},plain:""}; return state.sub[key]; }
 
@@ -652,8 +876,8 @@ function updateProgress(){
   const pg=["want","avoid","block","trust","trig"].filter(k=>state[k].size>0).length;
   document.getElementById("prog").textContent=Math.round(((filled+pg)/(allKeys.length+5))*100)+"%";
   const ready=core&&psychFilled;
-  document.getElementById("go-design").disabled=!ready;
-  document.getElementById("tab-b").classList.toggle("locked", !state.brandDone && !ready);
+  ["go-design","go-copy","go-persona"].forEach(id=>{ const e=document.getElementById(id); if(e) e.disabled=!ready && !DEV_UNLOCK; });
+  ["tab-b","tab-c","tab-d"].forEach(id=>document.getElementById(id).classList.toggle("locked", !DEV_UNLOCK && !state.brandDone && !ready));
 }
 
 /* ---------- 토큰 엔진 ---------- */
@@ -907,14 +1131,20 @@ function resetTweak(){ state.tweak={}; refreshDesign(); }
 function refreshDesign(){ const t=computeTokens(); buildProposals(t); renderPreview(t); }
 
 function goStage(s){
-  if(s==='b' && document.getElementById("tab-b").classList.contains("locked")){ alert("먼저 브랜드 기초 설계를 마무리해 주세요.\n핵심 항목(서비스 한 줄·고객·욕망·두려움)과 06 심리 상태를 채우면 디자인 단계가 열립니다."); return; }
-  document.getElementById("stage-a").classList.toggle("active",s==='a');
-  document.getElementById("stage-b").classList.toggle("active",s==='b');
-  document.getElementById("tab-a").classList.toggle("active",s==='a');
-  document.getElementById("tab-b").classList.toggle("active",s==='b');
+  if(!DEV_UNLOCK && (s==='b'||s==='c'||s==='d') && document.getElementById("tab-"+s).classList.contains("locked")){ alert("먼저 브랜드 기초 설계를 마무리해 주세요.\n핵심 항목(서비스 한 줄·고객·욕망·두려움)과 06 심리 상태를 채우면 디자인·카피·페르소나 단계가 열립니다."); return; }
+  ["a","b","c","d"].forEach(x=>{
+    document.getElementById("stage-"+x).classList.toggle("active",x===s);
+    document.getElementById("tab-"+x).classList.toggle("active",x===s);
+  });
   if(s==='b') refreshDesign();
+  if(s==='c') refreshCopy();
+  if(s==='d') refreshPersona();
 }
-function completeBrand(){ state.brandDone=true; document.getElementById("tab-b").classList.remove("locked"); goStage('b'); }
+function completeBrand(target){
+  state.brandDone=true;
+  ["tab-b","tab-c","tab-d"].forEach(id=>document.getElementById(id).classList.remove("locked"));
+  goStage(target==='c'?'c':target==='d'?'d':'b');
+}
 
 function checkSub(key){
   const sub=SUBMAP[key], ans=getAns(key);
@@ -958,6 +1188,308 @@ function printBrief(kind){
   document.body.classList.add("printing"); window.print();
 }
 window.onafterprint=()=>document.body.classList.remove("printing");
+
+/* ====================================================================
+   STAGE C — 카피라이팅 (브랜드 기초설계 입력을 근거로 카피 프롬프트 생성)
+   copywrite 도구를 병합. 브랜드 기초(BIBX)에서 본질·타겟·메시지·톤 자동 도출.
+   ==================================================================== */
+const platformOptions = {
+  '디지털 광고': ['메타 광고 - 단일 이미지','메타 광고 - 캐러셀','메타 광고 - 영상/릴스','유튜브 인스트림 (5초 스킵)','유튜브 논스킵 (15초)','유튜브 범퍼 (6초)','유튜브 쇼츠 광고','네이버 파워링크','네이버 디스플레이 (NDA)','네이버 GFA','카카오 비즈보드','카카오 모먼트','틱톡 광고','구글 디스플레이 (GDN)'],
+  'SNS 운영': ['인스타 피드 단일','인스타 피드 캐러셀','인스타 릴스 (자연)','인스타 스토리','페이스북 페이지','유튜브 영상 (제목·썸네일·설명)','유튜브 쇼츠 (자연)','틱톡 (자연)','쓰레드·X','링크드인 게시물','네이버 블로그','네이버 카페'],
+  '자사 채널': ['홈페이지 메인 (H1+서브)','랜딩 페이지 (LP)','제품 상세 페이지','스마트스토어 상세','이메일 뉴스레터','앱 푸시 알림','앱 배너·온보딩'],
+  '제안·세일즈 문서': ['캠페인 콘셉트 (대표 한 줄)','제안서 표지 카피','제안서 챕터 헤드','슬라이드 제목 카피','슬라이드 본문 설명','IR · 투자 자료','세일즈 데크 (영업·소개)','입찰 제안서·RFP 응답','보도자료 (PR)'],
+  '옥외·인쇄': ['옥외 - 지하철','옥외 - 버스 외부 래핑','옥외 - 빌보드','옥외 - 매장 사이니지·POP','옥외 - 엘리베이터·차량','인쇄 - 잡지 광고','인쇄 - 신문 광고','인쇄 - 브로슈어·카탈로그','인쇄 - 리플렛·전단','인쇄 - 명함·DM·인사장'],
+  '영상·방송': ['TV CF 15초','TV CF 30초','라디오 CF','사내·이벤트 영상','바이럴 영상 (브랜드 필름)'],
+  '패키지·굿즈': ['제품 라벨','박스','쇼핑백','행택·태그','굿즈·MD (텀블러·티셔츠 등)']
+};
+const platformBriefs = {
+  '메타 광고 - 단일 이미지':'헤드 1줄(15자 내), 본문 90자 + CTA 1줄','메타 광고 - 캐러셀':'슬라이드별 헤드 1줄(8~12자) × 3~5컷, 전체 캡션 90자 내','메타 광고 - 영상/릴스':'훅 1줄(5~8자 자막), 자막 시퀀스 5~8컷 + CTA 1줄','유튜브 인스트림 (5초 스킵)':'5초 후킹 카피 + 15~20초 본문 스크립트 + CTA','유튜브 논스킵 (15초)':'15초 풀 스크립트 — 후킹 3초 + 메시지 10초 + CTA 2초','유튜브 범퍼 (6초)':'6초 단일 메시지 카피, 자막 1~2줄','유튜브 쇼츠 광고':'훅 1줄 + 자막 시퀀스 5~7컷 + CTA','네이버 파워링크':'제목 15자 이내, 설명 45자 × 2줄','네이버 디스플레이 (NDA)':'헤드 1줄(20자), 서브 1줄(30자) + CTA','네이버 GFA':'제목 25자 + 설명 45자 × 2줄','카카오 비즈보드':'메인 1줄(15자), 서브 1줄(20자)','카카오 모먼트':'헤드 1줄(20자) + 본문 80~150자','틱톡 광고':'훅 1줄 + 자막 시퀀스 5~7컷 + CTA','구글 디스플레이 (GDN)':'제목 25자 + 설명 90자',
+  '인스타 피드 단일':'캡션 첫줄 후킹(7~15자), 본문 80~150자, 해시태그 5~10개','인스타 피드 캐러셀':'슬라이드별 헤드(7~12자) × 5~10컷 + 캡션 100~200자','인스타 릴스 (자연)':'자막 시퀀스 5~8컷(컷당 6~10자) + 캡션 80~150자','인스타 스토리':'자막 1~2줄(5~10자), 직관 메시지','페이스북 페이지':'본문 100~250자, 첫줄 후킹','유튜브 영상 (제목·썸네일·설명)':'제목 30자 + 썸네일 카피 6~10자 + 설명 100~300자','유튜브 쇼츠 (자연)':'자막 시퀀스 5~7컷 + 제목 25자','틱톡 (자연)':'자막 시퀀스 5~7컷, 캡션 100자 내','쓰레드·X':'한 호흡 1~3줄, 본문 100~200자','링크드인 게시물':'제목 1줄(25자), 본문 200~400자, 2~3단락','네이버 블로그':'제목 30자, 도입 단락 + 본문 3~5단락','네이버 카페':'제목 25자, 본문 200~400자',
+  '홈페이지 메인 (H1+서브)':'H1 1줄(10~15자) + 서브 1줄(20~30자) + 추가 본문 단락','랜딩 페이지 (LP)':'H1 + 서브 + 본문 3~5단락 + 섹션별 CTA','제품 상세 페이지':'메인 헤드 + 섹션 헤드 5~7개 + 섹션 본문 100~200자','스마트스토어 상세':'상품명 + 후킹 헤드 + 섹션 헤드 + 본문 100~200자','이메일 뉴스레터':'제목 25자 + 프리헤더 60자 + 본문 200~400자, 단락 2~4개','앱 푸시 알림':'제목 15자, 본문 30~50자','앱 배너·온보딩':'헤드 1줄(10자 내), 서브 1줄(20자 내)',
+  '캠페인 콘셉트 (대표 한 줄)':'대표 한 줄(7~15자), 응축된 캠페인 정수, 명사형 권장','제안서 표지 카피':'표지 1줄(15자 내) + 서브 1줄(20~30자)','제안서 챕터 헤드':'챕터별 헤드 6~12자 × 3~5개, 명사형 통일','슬라이드 제목 카피':'슬라이드 헤드 8~15자, 명사형 또는 단언','슬라이드 본문 설명':'슬라이드당 본문 30~80자, 한 슬라이드 한 메시지','IR · 투자 자료':'메인 메시지 1줄 + 본문 100~200자, 신뢰 톤','세일즈 데크 (영업·소개)':'제목 + 핵심 약속 + 본문 100~200자','입찰 제안서·RFP 응답':'챕터 헤드 + 본문 200~400자, 명확·근거 중심','보도자료 (PR)':'제목 25~35자 + 리드 단락 + 본문 300~500자',
+  '옥외 - 지하철':'1줄 6~12자 + 서브 1줄, 원거리 가독','옥외 - 버스 외부 래핑':'1줄 6~10자, 원거리 가독성','옥외 - 빌보드':'1줄 6~10자, 본문 없음','옥외 - 매장 사이니지·POP':'1줄 6~12자 + 서브 1줄, 근거리','옥외 - 엘리베이터·차량':'1줄 8~15자','인쇄 - 잡지 광고':'헤드 1줄 + 서브 1줄, 본문 300~600자','인쇄 - 신문 광고':'헤드 1줄 + 서브 1줄, 본문 300~600자','인쇄 - 브로슈어·카탈로그':'섹션별 헤드 + 본문 100~300자 × 섹션','인쇄 - 리플렛·전단':'커버 헤드 + 본문 100~200자','인쇄 - 명함·DM·인사장':'한 줄 메시지 5~12자',
+  'TV CF 15초':'훅 3초 + 메시지 10초 + CTA 2초 스크립트','TV CF 30초':'훅 + 본문 + 결말 30초 스크립트, 자막·더빙 함께','라디오 CF':'청각만으로 인지 가능한 15~30초 스크립트','사내·이벤트 영상':'인트로 1줄 + 본문 스크립트 30~60초','바이럴 영상 (브랜드 필름)':'제목 + 60~120초 스크립트, 감정 곡선',
+  '제품 라벨':'1줄 4~10자 + 본문 30~80자','박스':'1줄 4~10자 + 본문 30~80자','쇼핑백':'1줄 4~10자','행택·태그':'1줄 4~8자','굿즈·MD (텀블러·티셔츠 등)':'1줄 3~8자, 단어 단위 응축'
+};
+
+let copyMode='cc', copyInit=false;
+function cval(id){ const e=document.getElementById(id); return e?(e.value||'').trim():''; }
+
+/* 프레임워크 괄호 없이 값만 추출 → 가독 정리 */
+function ansValues(key){
+  const s=subState(key); if(!s) return "";
+  if(s.plain) return s.plain;
+  const out=[];
+  s.sel.forEach(name=>{ const v=s.vals[name]||{}; Object.values(v).forEach(val=>{ if(val) out.push(val); }); });
+  return out.join(" · ");
+}
+/* 라벨 + 줄바꿈으로 문단 정리 */
+function composeBrief(pairs){
+  return pairs.map(([label,key])=>{ const v=ansValues(key); return v?`· ${label}: ${v}`:null; }).filter(Boolean).join("\n");
+}
+function autosize(el){ if(!el || el.tagName!=='TEXTAREA') return; el.style.height='auto'; el.style.height=Math.min(el.scrollHeight+2,240)+'px'; }
+function deriveCopyBrief(){
+  const w=[...state.want]; let tone="";
+  if(w.some(x=>["성취감","자부심","통제감"].includes(x))) tone="단언";
+  else if(w.some(x=>["안정감","소속감"].includes(x))) tone="공감";
+  else if(w.includes("전문성")) tone="격언";
+  return {
+    q1:composeBrief([["한 줄 정의","a1_line"],["믿는 것","a2_believe"],["브랜드 선언","a2_manifesto"]]),
+    q2:composeBrief([["고객","a3_basic"],["현재 상태","a3_now"],["시작 상태","a4_start"]]),
+    q3:composeBrief([["제공 가치","a1_value"],["만들 변화","a2_change"],["차별성","a1_diff"]]),
+    tone, forbidden:ansValues("a2_not")
+  };
+}
+function deriveAndFill(force){
+  const b=deriveCopyBrief();
+  const set=(id,v)=>{ const e=document.getElementById(id); if(e && (force||!e.value)){ e.value=v; autosize(e); } };
+  set("cq1",b.q1); set("cq2",b.q2); set("cq3",b.q3); set("cforbidden",b.forbidden);
+  const tn=document.getElementById("ctone"); if(tn && (force||!tn.value)) tn.value=b.tone;
+}
+function redriveCopy(){ deriveAndFill(true); updateCopyPrompt(); }
+
+function bindCopyStatic(){
+  document.querySelectorAll('#stage-c input, #stage-c textarea, #stage-c select').forEach(el=>{
+    el.addEventListener('input',updateCopyPrompt); el.addEventListener('change',updateCopyPrompt);
+  });
+  document.querySelectorAll('input[name="ctype"]').forEach(el=>el.addEventListener('change',onCtypeChange));
+  document.querySelectorAll('input[name="cmedia"]').forEach(el=>el.addEventListener('change',onCopyMediaChange));
+  document.querySelectorAll('#stage-c textarea').forEach(el=>el.addEventListener('input',()=>autosize(el)));
+}
+function refreshCopy(){ if(!copyInit){ bindCopyStatic(); copyInit=true; } deriveAndFill(false); ["cq1","cq2","cq3"].forEach(id=>autosize(document.getElementById(id))); updateCopyPrompt(); }
+
+function onCtypeChange(){
+  const t=document.querySelector('input[name="ctype"]:checked'), card=document.getElementById('c-media-card');
+  if(t && t.value==='F'){ card.style.display='none'; document.querySelectorAll('input[name="cmedia"]').forEach(e=>e.checked=false); onCopyMediaChange(); }
+  else card.style.display='block';
+  updateCopyPrompt();
+}
+function onCopyMediaChange(){
+  const m=document.querySelector('input[name="cmedia"]:checked');
+  const grid=document.getElementById('cplatform'), pf=document.getElementById('cplatform-field'), bf=document.getElementById('cbody-field');
+  grid.innerHTML='';
+  if(!m){ pf.style.display='none'; bf.style.display='none'; updateCopyPrompt(); return; }
+  (platformOptions[m.value]||[]).forEach(name=>{ const l=document.createElement('label'); l.innerHTML=`<input type="checkbox" name="cplatform" value="${name}"><span>${name}</span>`; grid.appendChild(l); });
+  pf.style.display='block'; bf.style.display='block';
+  grid.querySelectorAll('input').forEach(el=>el.addEventListener('change',updateCopyPrompt));
+  updateCopyPrompt();
+}
+function collectCopyInputs(){
+  const t=document.querySelector('input[name="ctype"]:checked'), m=document.querySelector('input[name="cmedia"]:checked');
+  const pf=Array.from(document.querySelectorAll('input[name="cplatform"]:checked')).map(e=>e.value), bd=document.getElementById('cbody');
+  return { type:t?t.value:'', typeName:t?t.dataset.name:'', q1:cval('cq1'),q2:cval('cq2'),q3:cval('cq3'),
+    tone:cval('ctone'),length:cval('clength'),forbidden:cval('cforbidden'),required:cval('crequired'),
+    media:m?m.value:'', platforms:pf, body:bd?bd.checked:false, comp:cval('ccomp'),voice:cval('cvoice'),ref:cval('cref'),avoid:cval('cavoid'),
+    count:cval('ccount')||'3', div:cval('cdiv')||'각도', web:cval('cweb')||'no' };
+}
+function brandContextBlock(){
+  const brand=Object.keys(SUBMAP).map(k=>getAns(k)?`- ${SUBMAP[k].name}: ${getAns(k)}`:null).filter(Boolean).join("\n");
+  const psych=`- 얻고 싶은 감정: ${[...state.want].join(", ")||"-"}\n- 피하고 싶은 감정: ${[...state.avoid].join(", ")||"-"}\n- 방해요인: ${[...state.block].join(", ")||"-"}\n- 신뢰 요소: ${[...state.trust].join(", ")||"-"}\n- 행동 계기: ${[...state.trig].join(", ")||"-"}`;
+  return (brand||"(브랜드 기초설계 입력 적음)")+"\n[06 UX 심리]\n"+psych;
+}
+function copyMediaBlock(d){
+  if(!(d.media||d.platforms.length)) return '';
+  let s=`[3] 매체·플랫폼\n- 매체: ${d.media||'___'}\n- 플랫폼: ${d.platforms.join(', ')||'미지정'}\n- 본문 작성: ${d.body?'있음 (헤드 + 플랫폼별 본문)':'없음 (헤드만)'}\n`;
+  return s;
+}
+function platformBriefBlock(d){
+  if(!d.platforms.length) return '';
+  let s=`\n플랫폼별 작성 기준 (반드시 준수):\n`;
+  d.platforms.forEach(p=>{ if(platformBriefs[p]) s+=`- ${p}: ${platformBriefs[p]}\n`; });
+  return s;
+}
+function copyOptBlock(d){
+  let s='';
+  if(d.comp||d.voice||d.ref||d.avoid){ s+=`[4] 선택 입력\n`;
+    if(d.comp)s+=`- 경쟁사 카피:\n${d.comp}\n`; if(d.voice)s+=`- 브랜드 보이스 샘플:\n${d.voice}\n`;
+    if(d.ref)s+=`- 레퍼런스 카피:\n${d.ref}\n`; if(d.avoid)s+=`- 피해야 할 방향:\n${d.avoid}\n`; }
+  return s;
+}
+function generateCopyCC(d){
+  if(!d.type) return '';
+  let p=`brand-design-guide 에이전트로, 아래 브랜드 기초설계(BIBX)를 근거로 카피를 작성해 줘. 한국 카피라이터 작법(응축·단언·정서)을 따르고, 모든 안이 이 브랜드 기초와 정합해야 해.\n\n`;
+  p+=`## 브랜드 기초설계 (STAGE A)\n${brandContextBlock()}\n\n`;
+  p+=`## 카피 작성 입력\n[1] 카피 유형: ${d.type}. ${d.typeName}\n`;
+  p+=`[2] 사전 4질문 (브랜드 기초에서 도출 · 사용자 보정)\n- Q1 본질: ${d.q1||'___'}\n- Q2 타겟·맥락: ${d.q2||'___'}\n- Q3 메시지: ${d.q3||'___'}\n- Q4 톤·제약: 톤=${d.tone||'자동'} / 글자수=${d.length||'제약 없음'} / 금기=${d.forbidden||'없음'} / 필수=${d.required||'없음'}\n`;
+  p+=copyMediaBlock(d)+copyOptBlock(d);
+  p+=`[5] 외부 검색: ${d.web==='yes'?'필요 — WebSearch로 경쟁사·트렌드 확인':'불필요 — 내부 기준만'}\n[6] 출력: ${d.count}안 / ${d.div} 다양\n\n`;
+  p+=`카피 제안 표준 형식(입력 요약 → 적용 기준 → 도출 과정 → 최종 ${d.count}안 → 추천안${d.body?' → 본문(플랫폼별)':''} → 근거)으로 한국어 출력. 각 안은 6원칙·12체크리스트·제거 테스트를 통과해야 해.`;
+  return p;
+}
+function generateCopyGen(d){
+  if(!d.type) return '';
+  let p=`# 역할\n당신은 한국 카피라이터 작법 기준에 따라 카피를 도출하는 전문 에이전트입니다. 박웅현·정철·최인아 등의 작법 철학(응축·단언·정서)을 따르며, 모든 출력은 한국어입니다.\n\n`;
+  p+=`# 작성 6원칙\n1. 본질에서 출발 (브랜드가 사라지면 무엇이 사라지나)\n2. 추상을 구체로 치환 (행복·혁신·특별 → 장면·동사·명사)\n3. 단언하되 잘난 척 X\n4. 음성 언어 검증 (음수율 3·4조/7·5조, 발음 호흡)\n5. 한 카피 한 메시지\n6. 제거 가능성 통과 (빼도 의미 그대로면 죽은 카피)\n\n`;
+  p+=`# 12 자가 검수\nA.의도(3): 핵심질문 답·단일메시지·톤 일치 / B.표현(5): 형용사부사 의존·추상어 도피·클리셰·음성 자연스러움·음수율 / C.구조(2): 헤드-서브 호응·브랜드명 결합 / D.최종(2): 제거 테스트·안 간 다양성 → 11/12 이상만 출력\n\n`;
+  p+=`# 브랜드 기초설계 (이 카피의 근거 — 반드시 정합)\n${brandContextBlock()}\n\n`;
+  p+=`# 카피 작성 입력\n- 카피 유형: ${d.type}. ${d.typeName}\n- Q1 본질: ${d.q1||'___'}\n- Q2 타겟·맥락: ${d.q2||'___'}\n- Q3 메시지: ${d.q3||'___'}\n- Q4 톤·제약: 톤=${d.tone||'자동'} / 글자수=${d.length||'제약 없음'} / 금기=${d.forbidden||'없음'} / 필수=${d.required||'없음'}\n`;
+  if(d.media||d.platforms.length){ p+=`- 매체: ${d.media||'___'} / 플랫폼: ${d.platforms.join(', ')||'미지정'} / 본문: ${d.body?'있음':'없음'}\n`+platformBriefBlock(d); }
+  if(d.comp)p+=`- 경쟁사 카피:\n${d.comp}\n`; if(d.voice)p+=`- 브랜드 보이스:\n${d.voice}\n`;
+  if(d.ref)p+=`- 레퍼런스:\n${d.ref}\n`; if(d.avoid)p+=`- 피해야 할 방향:\n${d.avoid}\n`;
+  p+=`- 외부 검색: ${d.web==='yes'?'필요':'불필요'}\n- 출력: ${d.count}안 / ${d.div} 다양\n\n`;
+  p+=`# 출력 형식\n1.입력 요약 / 2.적용 기준(유형 우선원칙·매체 가중치) / 3.도출 과정([본질]→[사람]→[장면화]→[응축]) / 4.최종 ${d.count}안(각 안: 카피·의도·적용원칙·각도·체크리스트 X/12) / 5.추천안+이유`;
+  if(d.body&&d.platforms.length) p+=` / 5-1.본문(플랫폼별 1세트, 위 작성 기준 준수)`;
+  p+=` / 6.근거(작법·음수율·어미). 각 안은 출력 전 소리 내 읽기·제거 테스트 통과.`;
+  return p;
+}
+function updateCopyPrompt(){
+  const d=collectCopyInputs();
+  const p = copyMode==='cc'?generateCopyCC(d):generateCopyGen(d);
+  const box=document.getElementById('copy-prompt');
+  if(!p){ box.classList.add('empty'); box.textContent='왼쪽에서 카피 유형을 고르면 프롬프트가 생성됩니다.'; }
+  else { box.classList.remove('empty'); box.textContent=p; }
+}
+function setCopyMode(m){ copyMode=m; document.getElementById('cmode-cc').classList.toggle('active',m==='cc'); document.getElementById('cmode-gen').classList.toggle('active',m==='gen'); updateCopyPrompt(); }
+function copyCopyPrompt(){
+  const t=document.getElementById('copy-prompt').textContent;
+  if(!t||t.startsWith('왼쪽에서')){ alert('먼저 카피 유형을 선택하세요.'); return; }
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.getElementById('c-copybtn'); if(!b) return;
+    const o=b.textContent; b.textContent='✓ 복사됨'; b.classList.add('copied');
+    setTimeout(()=>{ b.textContent=o; b.classList.remove('copied'); },1500);
+  });
+}
+
+/* ====================================================================
+   STAGE D — 페르소나 (브랜드 기초설계 기반 자동 구축 · 1~5개 우선순위)
+   + 카피/페르소나 항목 이론·방법론 설명 (디자인 파트의 📖 방법론 설명과 동형)
+   ==================================================================== */
+const PERSONA_FIELDS = [
+  { key:"alias", label:"대표 별칭·한 줄", src:["a3_basic"],
+    hint:"이 페르소나를 한 문장으로. 인구통계가 아니라 '상황+목표'로. 예: 2주 안에 시즌 브랜딩을 정해야 하는 1년차 1인 대표.",
+    theory:["Goal-Directed Persona (쿠퍼)","팀이 '한 사람'을 떠올리며 판단하게 해 → 회의마다 흔들리던 타깃이 하나의 기준으로 고정된다."],
+    detail:"앨런 쿠퍼가 인터랙션 디자인에서 정립한 기법. 실제 사용자들을 관찰해 공통된 목표·행동 패턴을 하나의 가상 인물로 합성한다. 통계 평균치 인물이 아니라 '목표가 같은 사람들'을 대표하므로, 기능 추가·메시지 결정에서 '이 사람이라면?'이라는 일관된 판단 기준이 된다." },
+  { key:"context", label:"상황·맥락", src:["a3_basic","a4_start"],
+    hint:"어떤 상황에서, 직전에 무슨 일을 겪고, 어떤 마음으로 우리를 만나는지.",
+    theory:["JTBD Job Context","인구통계 대신 '제품을 찾기 직전 상황'을 잡아 → 언제·어디서 어떤 메시지를 던질지가 또렷해진다."],
+    detail:"클레이튼 크리스텐슨의 Jobs To Be Done. 사람은 제품을 '사는' 게 아니라 특정 상황에서 진전을 이루려 '고용'한다고 본다. 그래서 '누구'(인구통계)보다 '어떤 상황·과업'이 행동을 더 잘 설명한다. 상황을 적으면 마케팅이 닿아야 할 결정적 순간이 특정된다." },
+  { key:"goal", label:"목표 (기능·정서·사회)", src:["a3_basic"],
+    hint:"이루려는 것을 세 층으로. 예: (기능) 결정한다 / (정서) 확신을 얻는다 / (사회) 프로다워 보인다.",
+    theory:["3층 목표 (기능·정서·사회)","표면 목표 밑의 진짜 동기까지 드러나 → 기능 소구를 넘어선 메시지와 기능 우선순위를 잡을 수 있다."],
+    detail:"목표를 기능(task)·정서(emotion)·사회(social) 세 층으로 나눠 보는 관점(JTBD·경험 디자인 공통). 기능 목표만 보면 경쟁이 스펙 싸움이 되지만, 정서·사회 목표까지 보면 차별화 여지가 생긴다. 대부분의 강한 구매 동기는 정서·사회 층에 있다." },
+  { key:"pain", label:"핵심 불편·고통", src:["a3_now","a1_problem"],
+    hint:"가장 크고 자주 겪는 불편. 강도·빈도·회피난이도까지 함께.",
+    theory:["Pain 식별 (강도×빈도×회피가능성)","가장 크고 잦은 통증을 특정해 → 무엇부터 해결·강조할지 우선순위가 선다."],
+    detail:"고통점을 강도(severity)×빈도(frequency)×회피가능성으로 점수화하는 실무 기법. 세 값이 모두 높은 통증이 '돈 내고서라도 풀고 싶은 문제'다. 약한 불편을 잡으면 제품이 'nice to have'에 머물고, 강한 통증을 잡으면 'must have'가 된다." },
+  { key:"fear", label:"두려움·불안", src:["a3_fear"],
+    hint:"잃기 싫은 것, 걱정하는 실패, 무엇을 되돌리고 싶어 하는지.",
+    theory:["Loss Aversion · Ambiguity Aversion","손실은 이익의 2배 이상 무겁다는 원리. 두려움의 실체를 알면 → 어떤 안심·되돌리기 장치가 전환을 올리는지 보인다."],
+    detail:"카너먼·트버스키의 손실회피(같은 크기라도 손실은 이익의 약 2.25배로 느껴짐)와 엘스버그의 모호성 회피(확률을 모르는 불확실성을 특히 기피). 둘 다 '나쁜 일을 피하려는 힘'이 구매를 막는 핵심 브레이크임을 설명한다. 그래서 환불·되돌리기·명확한 안내가 강력한 전환 장치가 된다." },
+  { key:"desire", label:"욕망·되고 싶은 모습", src:["a3_desire"],
+    hint:"표면 욕구 너머 되고 싶은 모습·정체성.",
+    theory:["Self-Discrepancy · Identity Marketing","'되고 싶은 나'와의 간극이 동기다. 이를 짚으면 → 제품을 정체성의 언어로 포지셔닝할 수 있다."],
+    detail:"히긴스의 자기불일치 이론 — '현재의 나(actual self)'와 '되고 싶은 나(ideal self)'의 간극이 동기를 만든다. 정체성 마케팅은 소비를 '어떤 사람이 되는 행위'로 본다. 이상적 자아를 짚으면 제품이 단순 도구가 아니라 정체성의 상징이 된다." },
+  { key:"voc", label:"자주 하는 말 (VOC)", src:["a3_voc"],
+    hint:"실제로 자주 쓰는 말·질문을 그대로. 따옴표로.",
+    theory:["Voice of Customer","고객이 실제 쓰는 말투를 확보해 → 카피·랜딩·상세 문구의 공감도를 즉시 끌어올린다."],
+    detail:"고객의 목소리(VOC) — 고객이 실제 쓰는 단어·질문을 우리 용어로 번역하지 않고 날것 그대로 수집하는 리서치 원칙. 그 표현이 카피의 공감 트리거가 되고('내 얘기 같다'), 질문의 깊이로 구매 준비도(정보 탐색 단계인지 결정 직전인지)도 가늠할 수 있다." },
+  { key:"trigger", label:"행동 계기·결정 기준", src:["a4_aware","a4_decide"],
+    hint:"무엇이 행동하게 만드나 — 계기·결정 기준·기본값.",
+    theory:["Fogg B=MAT · Cialdini","동기·능력·트리거가 동시에 맞아야 행동한다. 무엇이 누르는지 알면 → CTA·신뢰 근거의 배치와 타이밍을 정확히 잡는다."],
+    detail:"포그 행동모델 B=MAT(행동은 동기·능력·트리거가 동시에 충족될 때 일어남)과 치알디니의 설득 6원리(권위·사회적 증거·희소성 등). 동기가 부족한지 능력이 부족한지에 따라 다른 트리거가 필요하고, 결정 직전엔 권위·사회적 증거 같은 신뢰 근거가 망설임을 줄인다." },
+  { key:"objection", label:"망설임·이탈 요인", src:["a4_start","a2_not"],
+    hint:"왜 망설이거나 안 하나, 어디서 떠나나.",
+    theory:["Status Quo Bias · Reactance","현상 유지와 강요 반발 심리. 이탈·거부 지점을 미리 알면 → 그 단계의 마찰을 설계로 줄인다."],
+    detail:"현상유지 편향(변화의 인지비용 때문에 보상이 불명확하면 지금 상태를 선호)과 심리적 반발(자유가 위협받으면 거꾸로 행동). 고객이 '문제를 알면서도 안 바꾸는' 이유와, '지금 결제하세요' 식 강요가 오히려 역효과인 이유를 설명한다. 마찰 지점을 알면 그 단계의 장벽을 설계로 낮출 수 있다." },
+  { key:"channel", label:"정보 탐색·채널", src:["a4_explore"],
+    hint:"어디서 정보를 찾고 누구를 참고해 판단하나.",
+    theory:["Information Foraging · Reference Group","단서를 좇고 닮고 싶은 집단을 기준 삼는다. 어디서 무엇을 보는지 알면 → 콘텐츠·후기·증거를 닿는 자리에 둔다."],
+    detail:"정보 채집 이론 — 사람은 먹이를 찾듯 단서(information scent)를 따라 정보를 탐색하므로, 단서가 명확할수록 탐색이 이어진다. 준거집단 이론 — 자신과 비슷하거나 닮고 싶은 집단을 판단 기준으로 삼는다. 둘을 알면 어디에 어떤 증거·후기·콘텐츠를 둘지 결정할 수 있다." },
+];
+/* (항목별 이론 설명은 각 항목 바로 아래 .why 캡션으로 인라인 표시 — 카피는 HTML에 직접, 페르소나는 PERSONA_FIELDS[].theory로 렌더) */
+
+/* ---------- 페르소나 도출·렌더 ---------- */
+function derivePersonaFields(){
+  const f={};
+  PERSONA_FIELDS.forEach(pf=>{ f[pf.key]=pf.src.map(k=>ansValues(k)).filter(Boolean).join(" · "); });
+  return f;
+}
+function refreshPersona(){
+  if(!state.personas.length) state.personas.push({fields:derivePersonaFields()});
+  renderPersonas();
+}
+function redrivePersona(){ if(state.personas[0]) state.personas[0].fields=derivePersonaFields(); renderPersonas(); }
+function addPersona(){ if(state.personas.length>=5) return; state.personas.push({fields:derivePersonaFields()}); renderPersonas(); }
+function removePersona(i){ state.personas.splice(i,1); if(!state.personas.length) state.personas.push({fields:derivePersonaFields()}); renderPersonas(); }
+function movePersona(i,dir){ const j=i+dir; if(j<0||j>=state.personas.length) return; const a=state.personas; [a[i],a[j]]=[a[j],a[i]]; renderPersonas(); }
+function personaCardHtml(p,i){
+  const n=state.personas.length;
+  const fields=PERSONA_FIELDS.map(f=>
+    `<div class="pf">
+      <div class="pf-title">${f.label}</div>
+      <div class="pf-why"><span class="pf-th">${f.theory[0]}</span> — ${f.theory[1]}</div>
+      <textarea data-pi="${i}" data-fk="${f.key}" placeholder="${(f.hint||'').replace(/"/g,'&quot;')}">${(p.fields[f.key]||"").replace(/</g,"&lt;")}</textarea>
+      <div class="pf-more-wrap"><span class="pf-more" onclick="this.parentElement.classList.toggle('open')">📖 이론 자세히</span><div class="pf-detail">${f.detail}</div></div>
+    </div>`).join("");
+  return `<div class="pcard ${i===0?'pri1':''}">
+    <div class="phead">
+      <span class="pbadge ${i===0?'':'np'}">${i+1}순위</span>
+      <span class="ptitle">페르소나</span>
+      <span class="pctrl">
+        <button onclick="movePersona(${i},-1)" ${i===0?'disabled style="opacity:.3"':''} title="우선순위 ↑">▲</button>
+        <button onclick="movePersona(${i},1)" ${i===n-1?'disabled style="opacity:.3"':''} title="우선순위 ↓">▼</button>
+        <button class="del" onclick="removePersona(${i})" title="삭제">✕</button>
+      </span>
+    </div>${fields}
+  </div>`;
+}
+function renderPersonas(){
+  const root=document.getElementById("persona-list");
+  root.innerHTML=state.personas.map((p,i)=>personaCardHtml(p,i)).join("");
+  root.querySelectorAll("[data-pi]").forEach(el=>{
+    el.addEventListener("input",e=>{ const d=e.target.dataset; state.personas[d.pi].fields[d.fk]=e.target.value; if(e.target.tagName==='TEXTAREA') autosize(e.target); updatePersonaPreview(); updatePersonaPrompt(); });
+    autosize(el);
+  });
+  const ab=document.getElementById("add-persona-btn"); if(ab) ab.disabled=state.personas.length>=5;
+  updatePersonaPreview(); updatePersonaPrompt();
+}
+function updatePersonaPreview(){
+  const box=document.getElementById("persona-preview");
+  box.innerHTML=state.personas.map((p,i)=>{
+    const nm=(p.fields.alias||"").trim()||`페르소나 ${i+1}`;
+    const rows=PERSONA_FIELDS.filter(f=>f.key!=="alias").map(f=>{
+      const v=(p.fields[f.key]||"").trim();
+      return `<div class="pvp-row"><span class="l">${f.label}</span><span class="v ${v?'':'empty'}">${v?v.replace(/</g,"&lt;"):"(미입력)"}</span></div>`;
+    }).join("");
+    return `<div class="pv-persona ${i===0?'':'np'}"><div class="pvp-h"><span class="pri">${i+1}순위</span><span class="nm">${nm.replace(/</g,"&lt;")}</span></div>${rows}</div>`;
+  }).join("");
+}
+
+/* ---------- 페르소나 여정 테스트 프롬프트 ---------- */
+let personaMode='cc';
+function personaText(){
+  return state.personas.map((p,i)=>{
+    const lines=PERSONA_FIELDS.filter(f=>f.key!=="alias").map(f=>{ const v=(p.fields[f.key]||"").trim(); return v?`- ${f.label}: ${v}`:null; }).filter(Boolean).join("\n");
+    return `[${i+1}순위] ${(p.fields.alias||`페르소나 ${i+1}`).trim()}\n${lines}`;
+  }).join("\n\n");
+}
+function generatePersonaCC(){
+  let p=`brand-design-guide 에이전트로, 아래 브랜드 기초설계와 페르소나를 근거로 내 브랜드 전략의 고객 여정을 테스트해 줘.\n\n`;
+  p+=`## 브랜드 기초설계 (STAGE A)\n${brandContextBlock()}\n\n`;
+  p+=`## 페르소나 (우선순위순, ${state.personas.length}명)\n${personaText()}\n\n`;
+  p+=`## 요청\n각 페르소나를 04 고객 여정 7단계(인식→탐색→신뢰→결정→실행→완료→재방문)에 따라 시뮬레이션해 줘. 단계별로 ① 이 페르소나가 무엇을 느끼고 무엇을 망설이는지 ② 현재 브랜드 전략(철학·가치·심리 설계)이 그 지점을 해소하는지 ③ 이탈·마찰이 생길 위험과 보완안을 제시해 줘. 우선순위 1순위부터, 페르소나별로 끊어서. 마지막에 공통 취약 단계와 우선 개선 3가지를 한국어로 정리해 줘.`;
+  return p;
+}
+function generatePersonaGen(){
+  let p=`# 역할\n당신은 브랜드 전략·고객 경험 분석가입니다. 아래 브랜드 기초설계와 페르소나를 근거로, 브랜드 전략이 각 페르소나의 고객 여정에서 잘 작동하는지 테스트합니다. 모든 출력은 한국어.\n\n`;
+  p+=`# 브랜드 기초설계 (전략의 근거)\n${brandContextBlock()}\n\n`;
+  p+=`# 페르소나 (우선순위순, ${state.personas.length}명)\n${personaText()}\n\n`;
+  p+=`# 분석 방법\n각 페르소나를 고객 여정 7단계(인식→탐색→신뢰→결정→실행→완료→재방문)로 시뮬레이션. 단계마다 [느낌·망설임] → [현재 전략이 해소하는가] → [이탈 위험·보완안] 순으로.\n\n`;
+  p+=`# 출력 형식\n## 페르소나별 여정 테스트 (1순위부터)\n### [N순위] 별칭\n- 단계별 표: 단계 / 심리 / 전략 적합도(상·중·하) / 마찰·보완\n## 공통 취약 단계\n## 우선 개선 3가지 (근거 포함)`;
+  return p;
+}
+function updatePersonaPrompt(){
+  const box=document.getElementById("persona-prompt");
+  const filled=state.personas.some(p=>Object.values(p.fields).some(v=>(v||"").trim()));
+  if(!filled){ box.classList.add("empty"); box.textContent="페르소나가 채워지면 여기에 여정 테스트 프롬프트가 생성됩니다."; return; }
+  box.classList.remove("empty"); box.textContent= personaMode==='cc'?generatePersonaCC():generatePersonaGen();
+}
+function setPersonaMode(m){ personaMode=m; document.getElementById('pmode-cc').classList.toggle('active',m==='cc'); document.getElementById('pmode-gen').classList.toggle('active',m==='gen'); updatePersonaPrompt(); }
+function copyPersonaPrompt(){
+  const t=document.getElementById('persona-prompt').textContent;
+  if(!t||t.startsWith('페르소나가 채워지면')){ alert('먼저 페르소나 항목을 채워 주세요.'); return; }
+  navigator.clipboard.writeText(t).then(()=>{ const b=document.getElementById('p-copybtn'); if(!b) return; const o=b.textContent; b.textContent='✓ 복사됨'; b.classList.add('copied'); setTimeout(()=>{ b.textContent=o; b.classList.remove('copied'); },1500); });
+}
 
 renderBibx(); updateProgress();
 </script>
